@@ -61,7 +61,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
         // FIX: We force padding='none' on the shell so the inner components
         // (Header/Footer) can touch the absolute edges with their full-width borders.
         className={cn(
-          cardVariants({ variant, elevation, padding: 'none' }),
+          cardVariants({ variant, elevation, padding }),
           'flex flex-col',
           className
         )}

@@ -59,7 +59,7 @@ export const buttonVariants = cva(
 
           // HOVER: The "Brand Hint"
           // Instead of just more white, we use your re-added primaryHover token!
-          'hover:bg-action-primary-hover-subtle hover:border-action-primary/30',
+          'hover:bg-action-primary-hover-subtle/20 hover:border-action-primary/30',
 
           // ACTIVE: The "Brand Selection"
           // We use your primarySubtle here to give it a solid "Selected" feel

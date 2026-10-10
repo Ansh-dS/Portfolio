@@ -21,6 +21,7 @@ export const stackVariants = cva('flex min-h-0 min-w-0', {
       start: 'justify-start',
       center: 'justify-center',
       end: 'justify-end',
+      between: 'justify-between',
     },
   },
   defaultVariants: {

@@ -236,7 +236,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               as="span"
               variant={textVariant}
               color={textColor}
-              weight="medium"
+              weight="semibold"
               className="truncate"
             >
               {children || text}

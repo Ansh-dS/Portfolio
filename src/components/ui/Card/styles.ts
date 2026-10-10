@@ -25,7 +25,7 @@ export const cardVariants = cva(
         // NEW: The "Riverside Glass" (High-end Translucency)
         // Uses backdrop-blur and a semi-transparent border to blend with backgrounds
         glass:
-          'bg-surface-base/40 backdrop-blur-md border border-white/10 shadow-modal',
+          'bg-surface-base/50 backdrop-blur-md border border-border-default/60 shadow-raised rounded-large',
 
         // NEW: The "Editor Sunken" (Internal Wells)
         // Perfect for the background behind a form preview to give it "nesting" depth

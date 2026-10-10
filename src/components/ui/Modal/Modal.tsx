@@ -208,7 +208,7 @@ export function Modal(props: ModalProps): React.ReactElement | null {
         {/* Close Button Icon */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-fg-secondary hover:text-fg-primary text-h3"
+          className="absolute top-4 right-4 text-fg-secondary hover:text-fg-primary text-h3 cursor-pointer transition-colors leading-none"
           aria-label="Close modal"
         >
           &times;

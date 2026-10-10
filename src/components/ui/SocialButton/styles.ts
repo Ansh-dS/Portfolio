@@ -2,8 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 export const socialButtonVariants = cva(
   [
-    // Core Layout
-    'inline-flex items-center justify-center shrink-0 w-full',
+    'inline-flex items-center justify-center shrink-0',
     'rounded-medium font-weight-medium transition-all duration-fast',
     'border outline-none cursor-pointer',
 
@@ -16,34 +15,36 @@ export const socialButtonVariants = cva(
     variants: {
       provider: {
         google:
-          'bg-surface-base text-fg-primary border-border-default hover:bg-surface-sunken',
+          'bg-surface-base text-fg-primary border-border-default hover:bg-surface-sunken hover:border-border-strong',
 
-        // GitHub adapts to the theme naturally
         github:
-          'bg-neutral-900 text-fg-inverted border-transparent hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200',
+          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         apple:
-          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90 dark:bg-neutral-100 dark:text-neutral-900',
+          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
+
+        linkedin:
+          'bg-action-primary text-fg-inverted border-transparent hover:bg-action-primary-hover',
+
+        twitter:
+          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
+
+        x:
+          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         generic:
-          'bg-surface-base text-fg-primary border-border-default hover:border-border-focused',
+          'bg-surface-base text-fg-primary border-border-default hover:border-border-focused hover:bg-surface-raised',
 
-        /* Magic Link: 
-          1. we are making thg bg transparent and providing the brannd colors to text and icon.
-          2. we are providing brand and hover states border where we reduce the reduces the opacity:
-              not for bg color but for border too.
-        */
         'magic-link': [
-          'bg-action-primary-transparent text-action-primary',
-          'border border-action-primary/20 hover:bg-action-primary/10 hover:border-action-primary/40',
+          'bg-action-primary-subtle text-fg-brand',
+          'border border-action-primary/20 hover:bg-action-primary hover:text-fg-inverted',
         ],
       },
-      /* [&>span>svg]:w-4 => this is the way we can increase the size of SVG.
-       */
       size: {
-        sm: 'py-xs px-m gap-xs [&>span>svg]:w-4 [&>span>svg]:h-4',
-        md: 'py-s px-l gap-s [&>span>svg]:w-5 [&>span>svg]:h-5',
-        lg: 'py-m px-2xl gap-m [&>span>svg]:w-6 [&>span>svg]:h-6',
+        sm: 'w-full py-xs px-m gap-xs [&>span>svg]:w-4 [&>span>svg]:h-4',
+        md: 'w-full py-s px-l gap-s [&>span>svg]:w-5 [&>span>svg]:h-5',
+        lg: 'w-full py-m px-2xl gap-m [&>span>svg]:w-6 [&>span>svg]:h-6',
+        icon: 'w-9 h-9 min-w-9 min-h-9 p-0 aspect-square [&>span>svg]:w-4.5 [&>span>svg]:h-4.5 rounded-medium',
       },
     },
     defaultVariants: {
