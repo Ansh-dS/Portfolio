@@ -18,8 +18,7 @@ export interface HeatmapData {
   count: number
 }
 
-export interface ActivityHeatmapProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface ActivityHeatmapProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Array of { date, count } entries */
   data: HeatmapData[]
   /** Number of weeks to display (default 52 = full year) */
@@ -97,7 +96,13 @@ export const ActivityHeatmap = forwardRef<HTMLDivElement, ActivityHeatmapProps>(
     const svgHeight = DAYS_IN_WEEK * (cellSize + cellGap) + 20 // 20px for month labels
 
     return (
-      <Stack ref={ref} direction="vertical" gap="sm" className={className} {...rest}>
+      <Stack
+        ref={ref}
+        direction="vertical"
+        gap="sm"
+        className={className}
+        {...rest}
+      >
         <div className="overflow-x-auto">
           <svg
             width={svgWidth}
@@ -181,8 +186,7 @@ ActivityHeatmap.displayName = 'ActivityHeatmap'
 // ContributionGrid — Simplified grid-based alternative (CSS Grid, not SVG)
 // ============================================================================
 
-export interface ContributionGridProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface ContributionGridProps extends React.HTMLAttributes<HTMLDivElement> {
   data: HeatmapData[]
   /** Number of columns (weeks) */
   columns?: number
@@ -190,9 +194,19 @@ export interface ContributionGridProps
   metricLabel?: string
 }
 
-export const ContributionGrid = forwardRef<HTMLDivElement, ContributionGridProps>(
+export const ContributionGrid = forwardRef<
+  HTMLDivElement,
+  ContributionGridProps
+>(
   (
-    { data, columns = 52, cellSize = 12, metricLabel = 'contributions', className, ...rest },
+    {
+      data,
+      columns = 52,
+      cellSize = 12,
+      metricLabel = 'contributions',
+      className,
+      ...rest
+    },
     ref
   ) => {
     const { grid, maxCount } = useMemo(() => {

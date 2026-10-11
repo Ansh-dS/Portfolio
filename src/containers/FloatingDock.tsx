@@ -67,7 +67,11 @@ export const FloatingDock = forwardRef<HTMLElement, FloatingDockProps>(
               : { type: 'button' as const, onClick: item.onClick }
 
             return (
-              <Tooltip key={item.id} content={item.label} position={isHorizontal ? 'top' : 'right'}>
+              <Tooltip
+                key={item.id}
+                content={item.label}
+                position={isHorizontal ? 'top' : 'right'}
+              >
                 <Wrapper
                   {...wrapperProps}
                   aria-label={item.label}
@@ -79,11 +83,9 @@ export const FloatingDock = forwardRef<HTMLElement, FloatingDockProps>(
                     'text-fg-secondary hover:text-fg-primary',
                     'hover:bg-action-ghost-hover',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focused',
-                    isActive && [
-                      'text-fg-brand bg-action-primary-subtle',
-                    ],
+                    isActive && ['text-fg-brand bg-action-primary-subtle'],
                     // No border, no underline styling
-                    'cursor-pointer border-0 bg-transparent no-underline',
+                    'cursor-pointer border-0 bg-transparent no-underline'
                   )}
                 >
                   <span className="w-5 h-5 flex items-center justify-center">
@@ -94,7 +96,9 @@ export const FloatingDock = forwardRef<HTMLElement, FloatingDockProps>(
                     <span
                       className={cn(
                         'absolute w-1 h-1 rounded-pill bg-fg-brand',
-                        isHorizontal ? '-bottom-0.5 left-1/2 -translate-x-1/2' : '-right-0.5 top-1/2 -translate-y-1/2'
+                        isHorizontal
+                          ? '-bottom-0.5 left-1/2 -translate-x-1/2'
+                          : '-right-0.5 top-1/2 -translate-y-1/2'
                       )}
                     />
                   )}
@@ -148,9 +152,7 @@ export const FloatingNav = forwardRef<HTMLElement, FloatingNavProps>(
         {...rest}
       >
         <Stack direction="horizontal" gap="sm" align="center" justify="center">
-          {brand && (
-            <div className="mr-m shrink-0">{brand}</div>
-          )}
+          {brand && <div className="mr-m shrink-0">{brand}</div>}
           {items.map((item) => {
             const isActive = activeId === item.id
             return (
@@ -165,7 +167,7 @@ export const FloatingNav = forwardRef<HTMLElement, FloatingNavProps>(
                   'hover:bg-action-ghost-hover',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focused',
                   'no-underline',
-                  isActive && 'text-fg-brand bg-action-primary-subtle',
+                  isActive && 'text-fg-brand bg-action-primary-subtle'
                 )}
               >
                 <Text

@@ -42,8 +42,8 @@ type ButtonCustomProps = {
 
 type CleanProps = Prettify<
   ButtonCustomProps &
-  ButtonVariantProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'>
+    ButtonVariantProps &
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'>
 >
 
 export type ButtonProps = CleanProps
@@ -193,7 +193,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             fullWidth: collapsed ? false : fullWidth,
           }),
           (collapsed || isIconSize || isStartIconOnly) &&
-          'h-10 w-10 p-0! flex items-center justify-center justify-items-center',
+            'h-10 w-10 p-0! flex items-center justify-center justify-items-center',
           isLoading && 'cursor-wait opacity-90',
           !isLoading && 'active:scale-[0.98]',
           className

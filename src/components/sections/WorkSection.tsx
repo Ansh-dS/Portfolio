@@ -15,17 +15,26 @@ export interface WorkSectionProps {
 
 export function WorkSection({ onOpenCertificate }: WorkSectionProps) {
   return (
-    <Box id="work" className="w-full border-0 bg-transparent animate-in fade-in duration-fast">
+    <Box
+      id="work"
+      className="w-full border-0 bg-transparent animate-in fade-in duration-fast"
+    >
       <Stack direction="vertical" gap="lg" className="w-full">
         <div className="flex flex-col gap-1">
-          <Text variant="caption" color="brand" weight="semibold" className="uppercase tracking-widest">
+          <Text
+            variant="caption"
+            color="brand"
+            weight="semibold"
+            className="uppercase tracking-widest"
+          >
             EXPERIENCE &amp; IMPACT
           </Text>
           <Text as="h2" variant="h1" weight="bold">
             Production Track Record
           </Text>
           <Text variant="body" color="secondary">
-            Engineering reliable REST microservices and database query optimization.
+            Engineering reliable REST microservices and database query
+            optimization.
           </Text>
         </div>
 
@@ -57,7 +66,9 @@ export function WorkSection({ onOpenCertificate }: WorkSectionProps) {
             </div>
 
             <Text variant="body" color="secondary">
-              Engineered type-safe RESTful APIs, optimized PostgreSQL query plans for low-latency joins, and containerized microservices via Docker for automated deployment pipelines.
+              Engineered type-safe RESTful APIs, optimized PostgreSQL query
+              plans for low-latency joins, and containerized microservices via
+              Docker for automated deployment pipelines.
             </Text>
             <Stack direction="horizontal" gap="sm" className="flex-wrap mt-2">
               <Badge color="brand">Node.js</Badge>

@@ -6,7 +6,12 @@ import { Stack } from '@/src/components/ui/Stack/Stack'
 import { Text } from '@/src/components/ui/Text/Text'
 import { Badge } from '@/src/components/ui/Badge/Badge'
 import { Button } from '@/src/components/ui/Button/Button'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/src/components/ui/Tabs/Tabs'
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from '@/src/components/ui/Tabs/Tabs'
 import {
   AppleProductCard,
   ProjectShowcaseGroup,
@@ -16,18 +21,32 @@ import { ArrowUpRight } from 'lucide-react'
 
 export function ProjectsSection() {
   return (
-    <Box id="projects" className="w-full border-0 bg-transparent animate-in fade-in duration-fast">
-      <Tabs defaultValue="fullstack" variant="pill" size="md" className="w-full border-0 bg-transparent">
+    <Box
+      id="projects"
+      className="w-full border-0 bg-transparent animate-in fade-in duration-fast"
+    >
+      <Tabs
+        defaultValue="fullstack"
+        variant="pill"
+        size="md"
+        className="w-full border-0 bg-transparent"
+      >
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div className="flex flex-col gap-1">
-            <Text variant="caption" color="brand" weight="semibold" className="uppercase tracking-widest">
+            <Text
+              variant="caption"
+              color="brand"
+              weight="semibold"
+              className="uppercase tracking-widest"
+            >
               FEATURED ARCHITECTURE
             </Text>
             <Text as="h2" variant="h1" weight="bold">
               Flagship Systems
             </Text>
             <Text variant="body" color="secondary">
-              Interactive state synchronizations &amp; async job orchestration engines.
+              Interactive state synchronizations &amp; async job orchestration
+              engines.
             </Text>
           </div>
 
@@ -53,9 +72,20 @@ export function ProjectsSection() {
                     <div className="w-full h-full p-6 flex flex-col justify-center items-center bg-surface-sunken/80 font-mono text-center gap-2">
                       <div className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-status-success animate-pulse" />
-                        <Text variant="caption" color="brand" className="font-mono">LIVE PREVIEW SYNC &lt; 50ms</Text>
+                        <Text
+                          variant="caption"
+                          color="brand"
+                          className="font-mono"
+                        >
+                          LIVE PREVIEW SYNC &lt; 50ms
+                        </Text>
                       </div>
-                      <Text as="p" variant="caption" color="secondary" className="font-mono text-xs opacity-70">
+                      <Text
+                        as="p"
+                        variant="caption"
+                        color="secondary"
+                        className="font-mono text-xs opacity-70"
+                      >
                         BroadcastChannel API State Diffusion
                       </Text>
                     </div>
@@ -64,7 +94,12 @@ export function ProjectsSection() {
 
                 <Stack direction="vertical" className="lg:w-1/2" gap="md">
                   <div>
-                    <Text variant="caption" color="brand" weight="semibold" className="uppercase tracking-wider">
+                    <Text
+                      variant="caption"
+                      color="brand"
+                      weight="semibold"
+                      className="uppercase tracking-wider"
+                    >
                       Real-Time Form Engine
                     </Text>
                     <Text as="h3" variant="h2" weight="bold" className="mt-1">
@@ -72,9 +107,15 @@ export function ProjectsSection() {
                     </Text>
                   </div>
                   <Text variant="body" color="secondary">
-                    Real-time preview sync via BroadcastChannel API and distributed async background worker queues powered by Redis and BullMQ to eliminate main-thread lag.
+                    Real-time preview sync via BroadcastChannel API and
+                    distributed async background worker queues powered by Redis
+                    and BullMQ to eliminate main-thread lag.
                   </Text>
-                  <Stack direction="horizontal" gap="sm" className="flex-wrap mt-2">
+                  <Stack
+                    direction="horizontal"
+                    gap="sm"
+                    className="flex-wrap mt-2"
+                  >
                     <Badge color="brand">Next.js 15</Badge>
                     <Badge color="brand">TypeScript</Badge>
                     <Badge color="brand">Redis</Badge>
@@ -84,7 +125,12 @@ export function ProjectsSection() {
                     <Button
                       variant="glass"
                       size="sm"
-                      onClick={() => window.open('https://tally-forms.duckdns.org/', '_blank')}
+                      onClick={() =>
+                        window.open(
+                          'https://tally-forms.duckdns.org/',
+                          '_blank'
+                        )
+                      }
                       endIcon={<ArrowUpRight className="size-3.5 opacity-70" />}
                       aria-label="Try Tally Form Builder live"
                     >
@@ -109,9 +155,20 @@ export function ProjectsSection() {
                     <div className="w-full h-full p-6 flex flex-col justify-center items-center bg-surface-sunken/80 font-mono text-center gap-2">
                       <div className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-status-info animate-pulse" />
-                        <Text variant="caption" color="brand" className="font-mono">CLI REGISTRY SYNC &lt; 10ms</Text>
+                        <Text
+                          variant="caption"
+                          color="brand"
+                          className="font-mono"
+                        >
+                          CLI REGISTRY SYNC &lt; 10ms
+                        </Text>
                       </div>
-                      <Text as="p" variant="caption" color="secondary" className="font-mono text-xs opacity-70">
+                      <Text
+                        as="p"
+                        variant="caption"
+                        color="secondary"
+                        className="font-mono text-xs opacity-70"
+                      >
                         pnpm aura setup
                       </Text>
                     </div>
@@ -120,7 +177,12 @@ export function ProjectsSection() {
 
                 <Stack direction="vertical" className="lg:w-1/2" gap="md">
                   <div>
-                    <Text variant="caption" color="brand" weight="semibold" className="uppercase tracking-wider">
+                    <Text
+                      variant="caption"
+                      color="brand"
+                      weight="semibold"
+                      className="uppercase tracking-wider"
+                    >
                       Design Architecture &amp; CLI
                     </Text>
                     <Text as="h3" variant="h2" weight="bold" className="mt-1">
@@ -128,9 +190,15 @@ export function ProjectsSection() {
                     </Text>
                   </div>
                   <Text variant="body" color="secondary">
-                    A theme-agnostic design architecture and CLI engine distributing natively performant components via a serverless registry with zero React re-renders and zero runtime bloat.
+                    A theme-agnostic design architecture and CLI engine
+                    distributing natively performant components via a serverless
+                    registry with zero React re-renders and zero runtime bloat.
                   </Text>
-                  <Stack direction="horizontal" gap="sm" className="flex-wrap mt-2">
+                  <Stack
+                    direction="horizontal"
+                    gap="sm"
+                    className="flex-wrap mt-2"
+                  >
                     <Badge color="brand">TypeScript</Badge>
                     <Badge color="brand">CLI (go-aura)</Badge>
                     <Badge color="brand">Tailwind CSS</Badge>
@@ -140,7 +208,12 @@ export function ProjectsSection() {
                     <Button
                       variant="glass"
                       size="sm"
-                      onClick={() => window.open('https://aura-stroybook.vercel.app/', '_blank')}
+                      onClick={() =>
+                        window.open(
+                          'https://aura-stroybook.vercel.app/',
+                          '_blank'
+                        )
+                      }
                       endIcon={<ArrowUpRight className="size-3.5 opacity-70" />}
                       aria-label="Try Aura Storybook live"
                     >
@@ -165,9 +238,20 @@ export function ProjectsSection() {
                   <div className="w-full h-full p-6 flex flex-col justify-center items-center bg-surface-sunken/80 font-mono text-center gap-2">
                     <div className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full bg-status-info animate-pulse" />
-                      <Text variant="caption" color="brand" className="font-mono">DISTRIBUTED WORKER POOL</Text>
+                      <Text
+                        variant="caption"
+                        color="brand"
+                        className="font-mono"
+                      >
+                        DISTRIBUTED WORKER POOL
+                      </Text>
                     </div>
-                    <Text as="p" variant="caption" color="secondary" className="font-mono text-xs opacity-70">
+                    <Text
+                      as="p"
+                      variant="caption"
+                      color="secondary"
+                      className="font-mono text-xs opacity-70"
+                    >
                       Autonomous Agent Concurrency Pipeline
                     </Text>
                   </div>
@@ -176,7 +260,12 @@ export function ProjectsSection() {
 
               <Stack direction="vertical" className="lg:w-1/2" gap="md">
                 <div>
-                  <Text variant="caption" color="brand" weight="semibold" className="uppercase tracking-wider">
+                  <Text
+                    variant="caption"
+                    color="brand"
+                    weight="semibold"
+                    className="uppercase tracking-wider"
+                  >
                     Async Job Orchestration
                   </Text>
                   <Text as="h3" variant="h2" weight="bold" className="mt-1">
@@ -184,9 +273,15 @@ export function ProjectsSection() {
                   </Text>
                 </div>
                 <Text variant="body" color="secondary">
-                  Fault-tolerant task execution pipeline with automatic retry backoff, telemetry tracing, and distributed concurrency controls built for high-throughput LLM pipelines.
+                  Fault-tolerant task execution pipeline with automatic retry
+                  backoff, telemetry tracing, and distributed concurrency
+                  controls built for high-throughput LLM pipelines.
                 </Text>
-                <Stack direction="horizontal" gap="sm" className="flex-wrap mt-2">
+                <Stack
+                  direction="horizontal"
+                  gap="sm"
+                  className="flex-wrap mt-2"
+                >
                   <Badge color="brand">Node.js</Badge>
                   <Badge color="brand">Redis Streams</Badge>
                   <Badge color="brand">Docker</Badge>

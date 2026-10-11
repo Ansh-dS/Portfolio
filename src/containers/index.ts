@@ -7,7 +7,10 @@
 export { VideoPlayer, MediaWrapper } from './VideoPlayer'
 export type { VideoPlayerProps, MediaWrapperProps } from './VideoPlayer'
 export { AppleProductCard, ProjectShowcaseContext } from './AppleProductCard'
-export type { AppleProductCardProps, ProjectShowcaseContextType } from './AppleProductCard'
+export type {
+  AppleProductCardProps,
+  ProjectShowcaseContextType,
+} from './AppleProductCard'
 export {
   ProjectShowcaseGroup,
   ProjectShowcaseRow,
@@ -24,10 +27,7 @@ export type { BentoGridProps, BentoCardProps } from './BentoGrid'
 
 // Navigation
 export { FloatingDock } from './FloatingDock'
-export type {
-  FloatingDockProps,
-  FloatingDockItem,
-} from './FloatingDock'
+export type { FloatingDockProps, FloatingDockItem } from './FloatingDock'
 
 // Tabs
 export { SegmentedControl, AnimatedTabIndicator } from './SegmentedControl'

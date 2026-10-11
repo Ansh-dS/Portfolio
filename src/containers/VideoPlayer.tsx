@@ -1,6 +1,12 @@
 'use client'
 
-import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react'
+import React, {
+  forwardRef,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react'
 import { cn } from '@/src/components/ui/Utils/utils'
 import { Box } from '@/src/components/ui/Box/Box'
 
@@ -8,8 +14,10 @@ import { Box } from '@/src/components/ui/Box/Box'
 // VideoPlayer — Auto-playing, muted, looping, borderless media
 // ============================================================================
 
-export interface VideoPlayerProps
-  extends Omit<React.VideoHTMLAttributes<HTMLVideoElement>, 'children'> {
+export interface VideoPlayerProps extends Omit<
+  React.VideoHTMLAttributes<HTMLVideoElement>,
+  'children'
+> {
   /** Video source URL */
   src: string
   /** Optional poster image shown before playback */

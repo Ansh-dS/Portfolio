@@ -100,13 +100,23 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
             className="px-m py-xs border-b border-border-default bg-surface-base/50"
           >
             {/* Traffic light dots */}
-            <Stack direction="horizontal" gap="none" align="center" className="gap-1.5 mr-s">
+            <Stack
+              direction="horizontal"
+              gap="none"
+              align="center"
+              className="gap-1.5 mr-s"
+            >
               <span className="w-3 h-3 rounded-pill bg-status-danger/80" />
               <span className="w-3 h-3 rounded-pill bg-status-warning/80" />
               <span className="w-3 h-3 rounded-pill bg-status-success/80" />
             </Stack>
 
-            <Text as="span" variant="caption" color="secondary" className="font-mono flex-1">
+            <Text
+              as="span"
+              variant="caption"
+              color="secondary"
+              className="font-mono flex-1"
+            >
               {filename ?? language}
             </Text>
 
@@ -120,7 +130,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
                   'hover:bg-action-ghost-hover',
                   'transition-colors duration-fast',
                   'bg-transparent border-0',
-                  'focus-visible:outline-2 focus-visible:outline-border-focused',
+                  'focus-visible:outline-2 focus-visible:outline-border-focused'
                 )}
                 aria-label="Copy code"
               >
@@ -181,8 +191,7 @@ export interface TerminalLine {
   prompt?: string
 }
 
-export interface TerminalWindowProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface TerminalWindowProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Terminal title (shown in header) */
   title?: string
   /** Lines to display */
@@ -220,7 +229,12 @@ export const TerminalWindow = forwardRef<HTMLDivElement, TerminalWindowProps>(
           align="center"
           className="px-m py-xs border-b border-white/10"
         >
-          <Stack direction="horizontal" gap="none" align="center" className="gap-1.5">
+          <Stack
+            direction="horizontal"
+            gap="none"
+            align="center"
+            className="gap-1.5"
+          >
             <span className="w-3 h-3 rounded-pill bg-[#ff5f57]" />
             <span className="w-3 h-3 rounded-pill bg-[#ffbd2e]" />
             <span className="w-3 h-3 rounded-pill bg-[#28c840]" />
@@ -241,9 +255,7 @@ export const TerminalWindow = forwardRef<HTMLDivElement, TerminalWindowProps>(
           {lines.map((line, i) => {
             const type = line.type ?? 'input'
             const prompt = line.prompt ?? (type === 'input' ? '$ ' : '')
-            const isLastInput =
-              type === 'input' &&
-              i === lines.length - 1
+            const isLastInput = type === 'input' && i === lines.length - 1
 
             return (
               <div key={i} className="flex whitespace-pre">
@@ -252,13 +264,9 @@ export const TerminalWindow = forwardRef<HTMLDivElement, TerminalWindowProps>(
                     {prompt}
                   </span>
                 )}
-                <span className={cn(lineColorMap[type])}>
-                  {line.text}
-                </span>
+                <span className={cn(lineColorMap[type])}>{line.text}</span>
                 {showCursor && isLastInput && (
-                  <span className="animate-pulse text-[#6366f1] ml-px">
-                    ▊
-                  </span>
+                  <span className="animate-pulse text-[#6366f1] ml-px">▊</span>
                 )}
               </div>
             )

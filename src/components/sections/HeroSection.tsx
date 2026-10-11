@@ -14,16 +14,27 @@ export interface HeroSectionProps {
   onOpenTranscript: () => void
 }
 
-export function HeroSection({ onSelectTab, onOpenTranscript }: HeroSectionProps) {
+export function HeroSection({
+  onSelectTab,
+  onOpenTranscript,
+}: HeroSectionProps) {
   return (
-    <Box id="hero" className="w-full border-0 bg-transparent animate-in fade-in duration-fast">
+    <Box
+      id="hero"
+      className="w-full border-0 bg-transparent animate-in fade-in duration-fast"
+    >
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-16 w-full">
         {/* Left Column: Copy, Badges, CTAs */}
         <div className="flex flex-col items-start text-left w-full lg:w-3/5">
           {/* Location / Status Kicker */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-base/80 border border-border-default/50 backdrop-blur-sm mb-6 whitespace-nowrap shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-status-success animate-pulse shrink-0" />
-            <Text variant="caption" color="secondary" weight="medium" className="whitespace-nowrap">
+            <Text
+              variant="caption"
+              color="secondary"
+              weight="medium"
+              className="whitespace-nowrap"
+            >
               Based in Delhi, India • B.Sc. CS @ IIT Patna
             </Text>
           </div>
@@ -32,27 +43,48 @@ export function HeroSection({ onSelectTab, onOpenTranscript }: HeroSectionProps)
             Anshdeep Singh.
           </Text>
 
-          <Text as="h2" variant="h2" color="brand" weight="medium" className="mt-3">
+          <Text
+            as="h2"
+            variant="h2"
+            color="brand"
+            weight="medium"
+            className="mt-3"
+          >
             Full-Stack &amp; Founding Engineer.
           </Text>
 
           <Text variant="body" color="secondary" className="mt-5 max-w-[36rem]">
-            Bridging complex backend architecture with zero-friction, high-performance UI.
+            Bridging complex backend architecture with zero-friction,
+            high-performance UI.
           </Text>
 
           {/* Proof Badges */}
           <div className="flex flex-wrap gap-2.5 mt-6 w-full">
-            <Badge color="info" size="sm">Ex-Backend Intern @ Prodesk IT, Remote</Badge>
-            <Badge color="info" size="sm">Merged Contributor @ Rocket.Chat @ Excalidraw</Badge>
-            <Badge color="info" size="sm">1700–2000 Leetcode Rating</Badge>
+            <Badge color="info" size="sm">
+              Ex-Backend Intern @ Prodesk IT, Remote
+            </Badge>
+            <Badge color="info" size="sm">
+              Merged Contributor @ Rocket.Chat @ Excalidraw
+            </Badge>
+            <Badge color="info" size="sm">
+              1700–2000 Leetcode Rating
+            </Badge>
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-row items-center gap-4 mt-8">
-            <Button variant="primary" size="md" onClick={() => onSelectTab('projects')}>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => onSelectTab('projects')}
+            >
               View Projects
             </Button>
-            <Button variant="secondary" size="md" onClick={() => onSelectTab('work')}>
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={() => onSelectTab('work')}
+            >
               View Work
             </Button>
           </div>
@@ -85,9 +117,13 @@ export function HeroSection({ onSelectTab, onOpenTranscript }: HeroSectionProps)
           <Button
             variant="glass"
             size="sm"
-            onClick={() => window.open('https://leetcode.com/u/Ansh-dS/', '_blank')}
+            onClick={() =>
+              window.open('https://leetcode.com/u/Ansh-dS/', '_blank')
+            }
             startIcon={<Zap className="size-3.5 text-amber-500" />}
-            endIcon={<ArrowUpRight className="size-3.5 text-fg-brand opacity-70" />}
+            endIcon={
+              <ArrowUpRight className="size-3.5 text-fg-brand opacity-70" />
+            }
             className="absolute -bottom-3 -left-2 sm:-left-4 z-10"
             aria-label="Open LeetCode Profile"
           >

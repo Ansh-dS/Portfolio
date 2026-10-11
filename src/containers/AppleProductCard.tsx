@@ -20,7 +20,8 @@ export interface ProjectShowcaseContextType {
   isActive: boolean
 }
 
-export const ProjectShowcaseContext = React.createContext<ProjectShowcaseContextType | null>(null)
+export const ProjectShowcaseContext =
+  React.createContext<ProjectShowcaseContextType | null>(null)
 
 export interface AppleProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Path or URL to the walkthrough video demo */
@@ -45,7 +46,10 @@ export interface AppleProductCardProps extends React.HTMLAttributes<HTMLDivEleme
  * Renders an Apple-inspired hardware frame with isometric 3D perspective,
  * intelligent viewport/hover auto-play management, and an enhanced modal viewer.
  */
-export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps>(
+export const AppleProductCard = forwardRef<
+  HTMLDivElement,
+  AppleProductCardProps
+>(
   (
     {
       videoSrc,
@@ -71,7 +75,8 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
     // Synchronize with parent ProjectShowcaseRow context if present
     const showcaseContext = React.useContext(ProjectShowcaseContext)
     const isControlled = isActiveProp !== undefined || showcaseContext !== null
-    const effectiveIsActive = isActiveProp ?? showcaseContext?.isActive ?? isInView
+    const effectiveIsActive =
+      isActiveProp ?? showcaseContext?.isActive ?? isInView
 
     // Forward ref integration
     useImperativeHandle(ref, () => containerRef.current as HTMLDivElement)
@@ -109,7 +114,8 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
       }
 
       window.addEventListener('apple-video-play', handleOtherPlay)
-      return () => window.removeEventListener('apple-video-play', handleOtherPlay)
+      return () =>
+        window.removeEventListener('apple-video-play', handleOtherPlay)
     }, [cardId])
 
     // Synchronize video playback with viewport visibility and modal status
@@ -160,7 +166,9 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
               setIsModalOpen(true)
             }
           }}
-          aria-label={expandable ? `Expand ${urlLabel} showcase demo` : undefined}
+          aria-label={
+            expandable ? `Expand ${urlLabel} showcase demo` : undefined
+          }
           {...rest}
         >
           {/* Ambient Backlight Rim Glow */}
@@ -193,7 +201,12 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
               className="px-m py-s bg-surface-sunken/60 border-b border-border-default/50 select-none z-10 w-full"
             >
               {/* Window Traffic Lights */}
-              <Stack direction="horizontal" gap="sm" align="center" className="shrink-0">
+              <Stack
+                direction="horizontal"
+                gap="sm"
+                align="center"
+                className="shrink-0"
+              >
                 <span className="w-2.5 h-2.5 rounded-full bg-status-danger" />
                 <span className="w-2.5 h-2.5 rounded-full bg-status-warning" />
                 <span className="w-2.5 h-2.5 rounded-full bg-status-success" />
@@ -237,7 +250,10 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
                   onError={() => setHasError(true)}
                   className="w-full h-full object-cover pointer-events-none"
                 >
-                  <source src={videoSrc.replace(/\.mov$/, '.mp4')} type="video/mp4" />
+                  <source
+                    src={videoSrc.replace(/\.mov$/, '.mp4')}
+                    type="video/mp4"
+                  />
                   <source src={videoSrc} type="video/quicktime" />
                   <source src={videoSrc} />
                 </video>
@@ -278,7 +294,12 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
                   className="px-m py-s bg-surface-sunken/80 border-b border-border-default/60 select-none z-10 w-full"
                 >
                   {/* Interactive Window Traffic Lights (Red dot acts as close button) */}
-                  <Stack direction="horizontal" gap="sm" align="center" className="shrink-0">
+                  <Stack
+                    direction="horizontal"
+                    gap="sm"
+                    align="center"
+                    className="shrink-0"
+                  >
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(false)}
@@ -299,7 +320,9 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
                     <Badge
                       color="default"
                       size="sm"
-                      startIcon={<span className="text-[10px] opacity-70">🔒</span>}
+                      startIcon={
+                        <span className="text-[10px] opacity-70">🔒</span>
+                      }
                       className="font-mono max-w-[60%] px-3"
                     >
                       {urlLabel}
@@ -307,7 +330,12 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
                   )}
 
                   {/* Esc / Close Shortcut Pill & Try Live */}
-                  <Stack direction="horizontal" gap="sm" align="center" className="shrink-0">
+                  <Stack
+                    direction="horizontal"
+                    gap="sm"
+                    align="center"
+                    className="shrink-0"
+                  >
                     {liveUrl && (
                       <Button
                         variant="outline"
@@ -333,7 +361,10 @@ export const AppleProductCard = forwardRef<HTMLDivElement, AppleProductCardProps
                       playsInline
                       className="w-full h-full object-contain"
                     >
-                      <source src={videoSrc.replace(/\.mov$/, '.mp4')} type="video/mp4" />
+                      <source
+                        src={videoSrc.replace(/\.mov$/, '.mp4')}
+                        type="video/mp4"
+                      />
                       <source src={videoSrc} type="video/quicktime" />
                       <source src={videoSrc} />
                     </video>

@@ -42,7 +42,8 @@ export function DotPattern({
       aria-hidden="true"
       className={cn(
         'pointer-events-none fixed inset-0 h-full w-full',
-        fade && '[mask-image:radial-gradient(ellipse_85%_85%_at_50%_40%,#000_70%,transparent_100%)]',
+        fade &&
+          '[mask-image:radial-gradient(ellipse_85%_85%_at_50%_40%,#000_70%,transparent_100%)]',
         className
       )}
       {...props}
@@ -61,7 +62,10 @@ export function DotPattern({
             cx={cx}
             cy={cy}
             r={cr}
-            className={cn('fill-fg-secondary/50 dark:fill-fg-secondary/50', dotClassName)}
+            className={cn(
+              'fill-fg-secondary/50 dark:fill-fg-secondary/50',
+              dotClassName
+            )}
           />
         </pattern>
       </defs>

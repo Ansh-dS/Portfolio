@@ -1,5 +1,5 @@
 'use client'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, ElementType } from 'react'
 import { socialButtonVariants, SocialButtonVariantsType } from './styles'
 import { cn } from '../Utils/utils'
 import { Text } from '../Text/Text'
@@ -137,7 +137,7 @@ export const SocialButton = forwardRef<
 
   const icon = renderIcon()
   const showLabel = Boolean(label) && size !== 'icon'
-  const Component: any = href ? 'a' : 'button'
+  const Component: ElementType = href ? 'a' : 'button'
 
   return (
     <Component
@@ -146,7 +146,9 @@ export const SocialButton = forwardRef<
       target={target}
       rel={rel}
       type={href ? undefined : 'button'}
-      aria-label={label || (typeof provider === 'string' ? provider : 'social link')}
+      aria-label={
+        label || (typeof provider === 'string' ? provider : 'social link')
+      }
       title={label || (typeof provider === 'string' ? provider : undefined)}
       className={cn(socialButtonVariants({ provider, size }), className)}
       {...rest}

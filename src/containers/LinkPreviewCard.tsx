@@ -11,8 +11,7 @@ import { Badge } from '@/src/components/ui/Badge/Badge'
 // LinkPreviewCard — OpenGraph-style card for rich link previews
 // ============================================================================
 
-export interface LinkPreviewCardProps
-  extends React.HTMLAttributes<HTMLAnchorElement> {
+export interface LinkPreviewCardProps extends React.HTMLAttributes<HTMLAnchorElement> {
   /** Target URL */
   href: string
   /** Preview image URL */
@@ -29,7 +28,10 @@ export interface LinkPreviewCardProps
   external?: boolean
 }
 
-export const LinkPreviewCard = forwardRef<HTMLAnchorElement, LinkPreviewCardProps>(
+export const LinkPreviewCard = forwardRef<
+  HTMLAnchorElement,
+  LinkPreviewCardProps
+>(
   (
     {
       href,
@@ -76,12 +78,23 @@ export const LinkPreviewCard = forwardRef<HTMLAnchorElement, LinkPreviewCardProp
 
         {/* Content */}
         <Stack direction="vertical" gap="sm" className="p-m">
-          <Text as="span" variant="body" weight="semibold" color="primary" className="line-clamp-2">
+          <Text
+            as="span"
+            variant="body"
+            weight="semibold"
+            color="primary"
+            className="line-clamp-2"
+          >
             {title}
           </Text>
 
           {description && (
-            <Text as="span" variant="caption" color="secondary" className="line-clamp-2">
+            <Text
+              as="span"
+              variant="caption"
+              color="secondary"
+              className="line-clamp-2"
+            >
               {description}
             </Text>
           )}
@@ -109,8 +122,7 @@ LinkPreviewCard.displayName = 'LinkPreviewCard'
 // ArticleCard — Blog post / social post card with metadata strip
 // ============================================================================
 
-export interface ArticleCardProps
-  extends React.HTMLAttributes<HTMLElement> {
+export interface ArticleCardProps extends React.HTMLAttributes<HTMLElement> {
   /** Article URL */
   href?: string
   /** Cover image URL */
@@ -185,13 +197,16 @@ export const ArticleCard = forwardRef<HTMLElement, ArticleCardProps>(
               alt={title}
               className={cn(
                 'absolute inset-0 w-full h-full object-cover',
-                interactive && 'transition-transform duration-normal hover:scale-[1.02]'
+                interactive &&
+                  'transition-transform duration-normal hover:scale-[1.02]'
               )}
               loading="lazy"
             />
             {platform && (
               <div className="absolute top-s right-s">
-                <Badge color="default" size="sm">{platform}</Badge>
+                <Badge color="default" size="sm">
+                  {platform}
+                </Badge>
               </div>
             )}
           </div>
@@ -203,23 +218,41 @@ export const ArticleCard = forwardRef<HTMLElement, ArticleCardProps>(
           {tags && tags.length > 0 && (
             <Stack direction="horizontal" gap="sm" className="flex-wrap">
               {tags.map((tag) => (
-                <Badge key={tag} color="default" size="sm">{tag}</Badge>
+                <Badge key={tag} color="default" size="sm">
+                  {tag}
+                </Badge>
               ))}
             </Stack>
           )}
 
-          <Text as="span" variant="body" weight="semibold" color="primary" className="line-clamp-2">
+          <Text
+            as="span"
+            variant="body"
+            weight="semibold"
+            color="primary"
+            className="line-clamp-2"
+          >
             {title}
           </Text>
 
           {excerpt && (
-            <Text as="span" variant="label" color="secondary" className="line-clamp-3 flex-1">
+            <Text
+              as="span"
+              variant="label"
+              color="secondary"
+              className="line-clamp-3 flex-1"
+            >
               {excerpt}
             </Text>
           )}
 
           {/* Meta strip */}
-          <Stack direction="horizontal" gap="sm" align="center" className="mt-auto pt-s border-t border-border-default">
+          <Stack
+            direction="horizontal"
+            gap="sm"
+            align="center"
+            className="mt-auto pt-s border-t border-border-default"
+          >
             {authorAvatar && (
               <img
                 src={authorAvatar}

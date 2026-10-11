@@ -9,8 +9,7 @@ import { Text } from '@/src/components/ui/Text/Text'
 // RadialProgress — Circular SVG progress indicator
 // ============================================================================
 
-export interface RadialProgressProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface RadialProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Current value (0–max) */
   value: number
   /** Maximum value */
@@ -268,10 +267,20 @@ export const ArcGauge = forwardRef<HTMLDivElement, ArcGaugeProps>(
             className="w-full"
             style={{ maxWidth: size }}
           >
-            <Text as="span" variant="caption" color="secondary" className="flex-1 text-left">
+            <Text
+              as="span"
+              variant="caption"
+              color="secondary"
+              className="flex-1 text-left"
+            >
               {min}
             </Text>
-            <Text as="span" variant="caption" color="secondary" className="flex-1 text-right">
+            <Text
+              as="span"
+              variant="caption"
+              color="secondary"
+              className="flex-1 text-right"
+            >
               {max}
             </Text>
           </Stack>

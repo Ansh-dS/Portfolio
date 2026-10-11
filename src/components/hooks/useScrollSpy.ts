@@ -29,9 +29,9 @@ export function useScrollSpy({
 }: UseScrollSpyOptions): UseScrollSpyReturn {
   const [activeId, setActiveId] = useState<string>('')
   const entriesRef = useRef<Map<string, IntersectionObserverEntry>>(new Map())
-  const [entries, setEntries] = useState<Map<string, IntersectionObserverEntry>>(
-    new Map()
-  )
+  const [entries, setEntries] = useState<
+    Map<string, IntersectionObserverEntry>
+  >(new Map())
 
   const handleIntersect = useCallback(
     (observerEntries: IntersectionObserverEntry[]) => {

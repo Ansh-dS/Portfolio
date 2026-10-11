@@ -50,10 +50,11 @@ export function ProjectShowcaseGroup({
     })
 
     const firstRect = elementsWithIds[0][1].getBoundingClientRect()
-    const lastRect = elementsWithIds[elementsWithIds.length - 1][1].getBoundingClientRect()
+    const lastRect =
+      elementsWithIds[elementsWithIds.length - 1][1].getBoundingClientRect()
 
     // When moving up past the first project: bottom edge hits the first project -> blur all
-    if (firstRect.top >= vh * 0.80) {
+    if (firstRect.top >= vh * 0.8) {
       setActiveRowId(null)
       return
     }
@@ -73,7 +74,7 @@ export function ProjectShowcaseGroup({
       for (let i = elementsWithIds.length - 1; i >= 0; i--) {
         const [id, el] = elementsWithIds[i]
         const rect = el.getBoundingClientRect()
-        const isCovered30 = (rect.bottom - vh) >= 0.30 * rect.height
+        const isCovered30 = rect.bottom - vh >= 0.3 * rect.height
         if (!isCovered30) {
           activeId = id
           break
@@ -91,15 +92,21 @@ export function ProjectShowcaseGroup({
     }
   }, [])
 
-  const registerRow = useCallback((id: string, el: HTMLElement) => {
-    rowsRef.current.set(id, el)
-    requestAnimationFrame(updateActiveRow)
-  }, [updateActiveRow])
+  const registerRow = useCallback(
+    (id: string, el: HTMLElement) => {
+      rowsRef.current.set(id, el)
+      requestAnimationFrame(updateActiveRow)
+    },
+    [updateActiveRow]
+  )
 
-  const unregisterRow = useCallback((id: string) => {
-    rowsRef.current.delete(id)
-    requestAnimationFrame(updateActiveRow)
-  }, [updateActiveRow])
+  const unregisterRow = useCallback(
+    (id: string) => {
+      rowsRef.current.delete(id)
+      requestAnimationFrame(updateActiveRow)
+    },
+    [updateActiveRow]
+  )
 
   useEffect(() => {
     lastScrollYRef.current = window.scrollY
@@ -182,9 +189,11 @@ export function ProjectShowcaseRow({
       const rect = el.getBoundingClientRect()
       const vh = window.innerHeight
       const isPastUpperScreen = rect.top <= 20
-      const isCovered30 = (rect.bottom - vh) >= 0.30 * rect.height
-      const isBelowViewport = rect.top >= vh * 0.80
-      setStandaloneActive(!isPastUpperScreen && !isCovered30 && !isBelowViewport)
+      const isCovered30 = rect.bottom - vh >= 0.3 * rect.height
+      const isBelowViewport = rect.top >= vh * 0.8
+      setStandaloneActive(
+        !isPastUpperScreen && !isCovered30 && !isBelowViewport
+      )
     }
 
     updateActiveState()

@@ -15,4 +15,7 @@ export type { ProofSectionProps } from './ProofSection'
 export { StageFooter } from './StageFooter'
 
 export { TranscriptModal, CertificateModal } from './PortfolioModals'
-export type { TranscriptModalProps, CertificateModalProps } from './PortfolioModals'
+export type {
+  TranscriptModalProps,
+  CertificateModalProps,
+} from './PortfolioModals'

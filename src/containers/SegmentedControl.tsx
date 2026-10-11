@@ -21,8 +21,10 @@ export interface SegmentedControlItem {
   disabled?: boolean
 }
 
-export interface SegmentedControlProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface SegmentedControlProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange'
+> {
   items: SegmentedControlItem[]
   /** Controlled value */
   value?: string
@@ -37,12 +39,27 @@ export interface SegmentedControlProps
 }
 
 const sizeMap = {
-  sm: { container: 'p-0.5 rounded-small', tab: 'px-s py-xs', text: 'caption' as const },
-  md: { container: 'p-0.5 rounded-medium', tab: 'px-m py-xs', text: 'label' as const },
-  lg: { container: 'p-1 rounded-medium', tab: 'px-l py-s', text: 'body' as const },
+  sm: {
+    container: 'p-0.5 rounded-small',
+    tab: 'px-s py-xs',
+    text: 'caption' as const,
+  },
+  md: {
+    container: 'p-0.5 rounded-medium',
+    tab: 'px-m py-xs',
+    text: 'label' as const,
+  },
+  lg: {
+    container: 'p-1 rounded-medium',
+    tab: 'px-l py-s',
+    text: 'body' as const,
+  },
 } as const
 
-export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
+export const SegmentedControl = forwardRef<
+  HTMLDivElement,
+  SegmentedControlProps
+>(
   (
     {
       items,
@@ -136,7 +153,7 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
                 'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-border-focused',
                 'z-[1]', // Above the background slider
                 item.disabled && 'opacity-40 cursor-not-allowed',
-                !isActive && !item.disabled && 'hover:text-fg-primary',
+                !isActive && !item.disabled && 'hover:text-fg-primary'
               )}
             >
               {/* Framer Motion shared layout background */}
@@ -188,8 +205,10 @@ export interface TabItem {
   icon?: React.ReactNode
 }
 
-export interface AnimatedTabIndicatorProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface AnimatedTabIndicatorProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange'
+> {
   tabs: TabItem[]
   /** Currently active tab value */
   value?: string
@@ -259,10 +278,7 @@ export const AnimatedTabIndicator = forwardRef<
         ref={ref}
         role="tablist"
         aria-label="Tab navigation"
-        className={cn(
-          'flex border-b border-border-default',
-          className
-        )}
+        className={cn('flex border-b border-border-default', className)}
         {...rest}
       >
         {tabs.map((tab, index) => {
@@ -283,7 +299,7 @@ export const AnimatedTabIndicator = forwardRef<
                 'bg-transparent border-0',
                 isActive
                   ? 'text-fg-brand'
-                  : 'text-fg-secondary hover:text-fg-primary',
+                  : 'text-fg-secondary hover:text-fg-primary'
               )}
             >
               <Stack direction="horizontal" gap="sm" align="center">

@@ -35,7 +35,8 @@ export default function Home() {
   // Global keybindings: 'C' to copy email, numbers 1-5 to switch tabs
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName))
+        return
 
       if (e.key.toLowerCase() === 'c' && !e.metaKey && !e.ctrlKey) {
         navigator.clipboard.writeText('ansh.dev.engg@gmail.com')

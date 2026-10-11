@@ -10,8 +10,10 @@ import { useTheme } from '@/src/components/ui/../core/theme-provider'
 // ThemeToggle — Sun/Moon switch mapped to CSS variable mode
 // ============================================================================
 
-export interface ThemeToggleProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
+export interface ThemeToggleProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'onChange'
+> {
   /** Size of the toggle */
   size?: 'sm' | 'md' | 'lg'
   /** Optional callback when mode changes */

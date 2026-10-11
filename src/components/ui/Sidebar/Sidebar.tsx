@@ -133,13 +133,13 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>((props, ref) => {
 
               // Left edge positioning
               position === 'left' &&
-              (isFullyHidden
-                ? '-right-5 rounded-r-md border-l-0'
-                : '-right-3'),
+                (isFullyHidden
+                  ? '-right-5 rounded-r-md border-l-0'
+                  : '-right-3'),
 
               // Right edge positioning
               position === 'right' &&
-              (isFullyHidden ? '-left-5 rounded-l-md border-r-0' : '-left-5')
+                (isFullyHidden ? '-left-5 rounded-l-md border-r-0' : '-left-5')
             )}
           >
             <ToggleIcon size={14} className="text-fg-secondary" />
@@ -279,8 +279,8 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
 
     const sizedIcon = React.isValidElement(icon)
       ? React.cloneElement(icon as React.ReactElement<{ size?: number }>, {
-        size: resolvedIconSize,
-      })
+          size: resolvedIconSize,
+        })
       : icon
 
     const resolvedTextVariant =
