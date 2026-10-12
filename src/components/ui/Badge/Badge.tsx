@@ -26,13 +26,15 @@ export function Badge(props: BadgeProps): React.ReactElement {
   // FIX : Map the Badge color to the exact string the <Text> component expects
   const textColorMap: Record<
     string,
-    'secondary' | 'success' | 'warning' | 'danger'
+    'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'brand'
   > = {
     default: 'secondary',
     success: 'success',
     warning: 'warning',
     /** Translates 'error' to 'danger' */
     error: 'danger',
+    info: 'info',
+    brand: 'brand',
   }
 
   return (

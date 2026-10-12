@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 export const badgeVariants = cva(
   [
     /* 1. Layout & Alignment */
-    'inline-flex items-center justify-center',
+    'inline-flex items-center justify-center gap-1.5',
     'rounded-pill border',
     'whitespace-nowrap select-none shrink-0',
 

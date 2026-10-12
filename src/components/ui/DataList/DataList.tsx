@@ -110,14 +110,14 @@ export const DataListItem = forwardRef<HTMLDivElement, DataListItemProps>(
           // Inset variant rounds corners and creates distinct boundaries
           variant === 'inset' && 'rounded-medium border border-transparent',
           variant === 'inset' &&
-          interactive &&
-          'hover:border-border-default hover:shadow-sm',
+            interactive &&
+            'hover:border-border-default hover:shadow-sm',
 
           // INTERACTIVE FOCUS STATES & TRANSITION CURVES:
           interactive &&
-          'cursor-pointer hover:bg-surface-sunken active:scale-[0.995]',
+            'cursor-pointer hover:bg-surface-sunken active:scale-[0.995]',
           selected &&
-          'bg-action-primary-subtle border-l-4 border-l-action-primary',
+            'bg-action-primary-subtle border-l-4 border-l-action-primary',
 
           className
         )}

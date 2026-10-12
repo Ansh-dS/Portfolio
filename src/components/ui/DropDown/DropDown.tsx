@@ -171,7 +171,7 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
         className="relative inline-block"
         ref={(node) => {
           // Set our internal ref for coordinate tracking
-          ; (
+          ;(
             triggerContainerRef as React.MutableRefObject<HTMLDivElement | null>
           ).current = node
           // Forward the node to the external ref provided by the parent
@@ -186,27 +186,27 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
         */}
         {isValidElement(trigger)
           ? cloneElement(
-            trigger as React.ReactElement<
-              React.HTMLAttributes<HTMLElement> & {
-                onClick?: React.MouseEventHandler
-              }
-            >,
-            {
-              'aria-expanded': isOpen,
-              'aria-haspopup': 'menu',
-              onClick: (e: React.MouseEvent<HTMLElement>) => {
-                const triggerElement = trigger as React.ReactElement<{
+              trigger as React.ReactElement<
+                React.HTMLAttributes<HTMLElement> & {
                   onClick?: React.MouseEventHandler
-                }>
-
-                // Safely preserve and call the original onClick if it exists on the trigger element
-                if (triggerElement.props.onClick) {
-                  triggerElement.props.onClick(e)
                 }
-                handleToggle()
-              },
-            }
-          )
+              >,
+              {
+                'aria-expanded': isOpen,
+                'aria-haspopup': 'menu',
+                onClick: (e: React.MouseEvent<HTMLElement>) => {
+                  const triggerElement = trigger as React.ReactElement<{
+                    onClick?: React.MouseEventHandler
+                  }>
+
+                  // Safely preserve and call the original onClick if it exists on the trigger element
+                  if (triggerElement.props.onClick) {
+                    triggerElement.props.onClick(e)
+                  }
+                  handleToggle()
+                },
+              }
+            )
           : trigger}
 
         {/* 

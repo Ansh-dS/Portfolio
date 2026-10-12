@@ -24,13 +24,12 @@ export const socialButtonVariants = cva(
           'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         linkedin:
-          'bg-action-primary text-fg-inverted border-transparent hover:bg-action-primary-hover',
+          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         twitter:
           'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
-        x:
-          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
+        x: 'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         generic:
           'bg-surface-base text-fg-primary border-border-default hover:border-border-focused hover:bg-surface-raised',
