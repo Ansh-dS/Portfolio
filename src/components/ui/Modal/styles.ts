@@ -17,6 +17,7 @@ export const modalContentVariants = cva(
     'rounded-medium',
     'shadow-modal',
     'w-full',
+    'mx-auto',
     'p-6',
     'transition-transform',
     'focus:outline-none',
@@ -24,12 +25,13 @@ export const modalContentVariants = cva(
   {
     variants: {
       size: {
-        sm: 'max-w-sm',
-        md: 'max-w-md',
-        lg: 'max-w-lg',
-        xl: 'max-w-xl',
-        '2xl': 'max-w-2xl',
-        '3xl': 'max-w-3xl',
+        sm: 'max-w-[24rem]',
+        md: 'max-w-[28rem]',
+        lg: 'max-w-[32rem]',
+        xl: 'max-w-[36rem]',
+        '2xl': 'max-w-[42rem]',
+        '3xl': 'max-w-[56rem]',
+        '4xl': 'max-w-[64rem]',
       },
     },
     defaultVariants: { size: 'md' },

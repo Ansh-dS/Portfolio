@@ -9,13 +9,20 @@ import { Kbd } from '@/src/containers'
 export function StageFooter() {
   return (
     <div className="mt-12 pt-6 border-t border-border-default/30 flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
-      <Stack direction="horizontal" align="center" gap="sm">
+      {/* Desktop Single-Line Shortcut Hints */}
+      <div className="hidden sm:flex items-center gap-1.5">
         <Text color="secondary" variant="caption">
           Press
         </Text>
         <Kbd size="sm">C</Kbd>
         <Text color="secondary" variant="caption">
-          to copy email • Press
+          to copy email
+        </Text>
+        <Text color="secondary" variant="caption" className="mx-1">
+          •
+        </Text>
+        <Text color="secondary" variant="caption">
+          Press
         </Text>
         <Kbd size="sm">1</Kbd>
         <Text color="secondary" variant="caption">
@@ -25,7 +32,33 @@ export function StageFooter() {
         <Text color="secondary" variant="caption">
           to switch tabs
         </Text>
-      </Stack>
+      </div>
+
+      {/* Mobile Clean 2-Line Shortcut Hints */}
+      <div className="flex sm:hidden flex-col items-center gap-1 text-center">
+        <div className="flex items-center gap-1.5">
+          <Text color="secondary" variant="caption">
+            Press
+          </Text>
+          <Kbd size="sm">C</Kbd>
+          <Text color="secondary" variant="caption">
+            to copy email
+          </Text>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Text color="secondary" variant="caption">
+            Press
+          </Text>
+          <Kbd size="sm">1</Kbd>
+          <Text color="secondary" variant="caption">
+            –
+          </Text>
+          <Kbd size="sm">5</Kbd>
+          <Text color="secondary" variant="caption">
+            to switch tabs
+          </Text>
+        </div>
+      </div>
 
       <Stack direction="horizontal" justify="center" align="center" gap="sm">
         <SocialButton

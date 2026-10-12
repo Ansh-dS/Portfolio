@@ -7,6 +7,7 @@ import { Text } from '@/src/components/ui/Text/Text'
 import { DotPattern } from '@/src/components/ui/DotPattern/DotPattern'
 import { Tabs, TabsList, TabsTrigger } from '@/src/components/ui/Tabs/Tabs'
 import { ThemeToggle } from '@/src/containers'
+import { showToast } from '@/src/components/ui/ToastProvider/ToastProvider'
 import {
   HeroSection,
   WorkSection,
@@ -19,18 +20,30 @@ import {
 } from '@/src/components/sections'
 
 const NAV_ITEMS = [
-  { id: 'hero', label: 'Home' },
-  { id: 'work', label: 'Work' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'architecture', label: 'Architecture' },
-  { id: 'proof', label: 'Proof' },
+  { id: 'hero', label: 'Home', shortLabel: 'Home' },
+  { id: 'work', label: 'Work', shortLabel: 'Work' },
+  { id: 'projects', label: 'Projects', shortLabel: 'Projects' },
+  { id: 'architecture', label: 'Architecture', shortLabel: 'Arch' },
+  { id: 'proof', label: 'Proof', shortLabel: 'Proof' },
 ] as const
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('hero')
-  const [copied, setCopied] = useState(false)
+  const [proofSubTab, setProofSubTab] = useState<
+    'activity' | 'contributions'
+  >('activity')
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false)
   const [isCertificateOpen, setIsCertificateOpen] = useState(false)
+
+  const handleSelectTab = (
+    tab: string,
+    subTab?: 'activity' | 'contributions'
+  ) => {
+    setActiveTab(tab)
+    if (subTab) {
+      setProofSubTab(subTab)
+    }
+  }
 
   // Global keybindings: 'C' to copy email, numbers 1-5 to switch tabs
   useEffect(() => {
@@ -40,8 +53,12 @@ export default function Home() {
 
       if (e.key.toLowerCase() === 'c' && !e.metaKey && !e.ctrlKey) {
         navigator.clipboard.writeText('ansh.dev.engg@gmail.com')
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2200)
+        showToast({
+          intent: 'success',
+          title: 'Email Copied!',
+          description: 'ansh.dev.engg@gmail.com copied to clipboard.',
+          variant: 'glass',
+        })
       } else if (e.key >= '1' && e.key <= '5') {
         const index = parseInt(e.key, 10) - 1
         if (NAV_ITEMS[index]) {
@@ -62,31 +79,24 @@ export default function Home() {
       {/* Floating Ambient Halo */}
       <div className="bg-white/10 h-72 w-72 sm:h-96 sm:w-96 rounded-full absolute z-base top-60 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none blur-3xl" />
 
-      {/* Copied Email HUD Toast Notification */}
-      {copied && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-toast animate-in fade-in duration-fast">
-          <div className="px-4 py-2 rounded-full bg-surface-base/90 border border-status-success/50 backdrop-blur-md shadow-modal flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-status-success animate-pulse" />
-            <Text variant="caption" weight="medium" color="primary">
-              Copied email (ansh.dev.engg@gmail.com) to clipboard!
-            </Text>
-          </div>
-        </div>
-      )}
-
       {/* Persistent Floating Bottom Navigation Dock */}
       <Tabs
         value={activeTab}
         onTabChange={setActiveTab}
         variant="glass"
         size="md"
-        className="fixed bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-toast shadow-modal max-w-[95vw] bg-surface-raised/30 rounded-large"
+        className="fixed bottom-3 sm:bottom-8 left-1/2 -translate-x-1/2 z-toast shadow-modal max-w-[96vw] bg-surface-raised/30 rounded-large overflow-x-auto scrollbar-hide"
       >
-        <TabsList className="items-center">
-          <ThemeToggle size="sm" />
+        <TabsList className="items-center px-1 py-1 gap-1 flex-nowrap">
+          <ThemeToggle size="sm" className="shrink-0" />
           {NAV_ITEMS.map((item) => (
-            <TabsTrigger key={item.id} value={item.id}>
-              {item.label}
+            <TabsTrigger
+              key={item.id}
+              value={item.id}
+              className="shrink-0 whitespace-nowrap"
+            >
+              <span className="hidden sm:inline">{item.label}</span>
+              <span className="sm:hidden">{item.shortLabel}</span>
             </TabsTrigger>
           ))}
         </TabsList>
@@ -102,8 +112,9 @@ export default function Home() {
           <Box className="w-full border-0 bg-transparent flex-1">
             {activeTab === 'hero' && (
               <HeroSection
-                onSelectTab={setActiveTab}
+                onSelectTab={handleSelectTab}
                 onOpenTranscript={() => setIsTranscriptOpen(true)}
+                onOpenCertificate={() => setIsCertificateOpen(true)}
               />
             )}
 
@@ -117,7 +128,12 @@ export default function Home() {
 
             {activeTab === 'architecture' && <ArchitectureSection />}
 
-            {activeTab === 'proof' && <ProofSection />}
+            {activeTab === 'proof' && (
+              <ProofSection
+                subTab={proofSubTab}
+                onSubTabChange={setProofSubTab}
+              />
+            )}
           </Box>
 
           {/* Persistent Integrated Stage Footer */}

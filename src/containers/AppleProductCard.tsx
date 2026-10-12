@@ -14,7 +14,7 @@ import { Button } from '../components/ui/Button/Button'
 import { Modal } from '../components/ui/Modal/Modal'
 import { cn } from '../components/ui/Utils/utils'
 
-import { Maximize2, Lock } from 'lucide-react'
+import { Maximize2, Lock, ArrowUpRight, X } from 'lucide-react'
 
 export interface ProjectShowcaseContextType {
   isActive: boolean
@@ -217,7 +217,7 @@ export const AppleProductCard = forwardRef<
                 <Badge
                   color="default"
                   size="sm"
-                  startIcon={<span className="text-[10px] opacity-70">🔒</span>}
+                  startIcon={<Lock className="size-3 opacity-70" />}
                   className="font-mono max-w-[60%]"
                 >
                   {urlLabel}
@@ -307,9 +307,7 @@ export const AppleProductCard = forwardRef<
                       aria-label="Close demo modal"
                       title="Close"
                     >
-                      <span className="opacity-0 group-hover/close:opacity-100 text-[9px] font-bold text-black leading-none select-none">
-                        ×
-                      </span>
+                      <X className="size-2 opacity-0 group-hover/close:opacity-100 text-black stroke-[3]" />
                     </button>
                     <span className="w-3 h-3 rounded-full bg-status-warning" />
                     <span className="w-3 h-3 rounded-full bg-status-success" />
@@ -320,9 +318,7 @@ export const AppleProductCard = forwardRef<
                     <Badge
                       color="default"
                       size="sm"
-                      startIcon={
-                        <span className="text-[10px] opacity-70">🔒</span>
-                      }
+                      startIcon={<Lock className="size-3 opacity-70" />}
                       className="font-mono max-w-[60%] px-3"
                     >
                       {urlLabel}
@@ -341,7 +337,9 @@ export const AppleProductCard = forwardRef<
                         variant="outline"
                         size="sm"
                         onClick={() => window.open(liveUrl, '_blank')}
-                        endIcon={<span className="text-xs opacity-70">↗</span>}
+                        endIcon={
+                          <ArrowUpRight className="size-3.5 opacity-70" />
+                        }
                         aria-label="Open live project"
                       >
                         Try Live

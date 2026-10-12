@@ -228,7 +228,7 @@ export const ArcGauge = forwardRef<HTMLDivElement, ArcGaugeProps>(
             <path
               d={arcPath}
               fill="none"
-              className="stroke-surface-sunken"
+              className="stroke-border-default/60 dark:stroke-surface-sunken"
               strokeWidth={strokeWidth}
               strokeLinecap="round"
             />

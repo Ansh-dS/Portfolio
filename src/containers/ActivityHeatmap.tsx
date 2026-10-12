@@ -1,11 +1,11 @@
 'use client'
 
-import React, { forwardRef, useMemo } from 'react'
+import React, { forwardRef, useMemo, useState } from 'react'
 import { cn } from '@/src/components/ui/Utils/utils'
-import { Box } from '@/src/components/ui/Box/Box'
 import { Stack } from '@/src/components/ui/Stack/Stack'
 import { Text } from '@/src/components/ui/Text/Text'
 import { Tooltip } from '@/src/components/ui/Tooltip/Tooltip'
+import { useTheme } from '@/src/components/core/theme-provider'
 
 // ============================================================================
 // ActivityHeatmap — GitHub-style contribution grid (SVG-based)
@@ -16,265 +16,388 @@ export interface HeatmapData {
   date: string
   /** Activity count */
   count: number
+  /** Level 0 to 4 */
+  level?: number
+  dayOfWeek?: number
+}
+
+export interface HeatmapMonthLabel {
+  label: string
+  colIndex: number
 }
 
 export interface ActivityHeatmapProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Array of { date, count } entries */
-  data: HeatmapData[]
-  /** Number of weeks to display (default 52 = full year) */
-  weeks?: number
-  /** Color intensity levels (maps count ranges to opacity/color) */
-  colorLevels?: number
-  /** Cell size in pixels */
+  /** Array of { date, count } entries (used if weeksData not provided) */
+  data?: HeatmapData[]
+  /** Direct 52/53-week columns array from GitHub API */
+  weeksData?: (HeatmapData | null)[][]
+  /** Month labels across the weeks */
+  monthLabels?: HeatmapMonthLabel[]
+  /** Cell size in pixels (default 10.5px like GitHub) */
   cellSize?: number
-  /** Gap between cells in pixels */
+  /** Gap between cells in pixels (default 3px) */
   cellGap?: number
   /** Label for the metric (e.g., "contributions") */
   metricLabel?: string
+  /** Total count to display */
+  totalCount?: number
+  /** Optional element placed on the left side of the bottom legend row */
+  footerLeft?: React.ReactNode
+  /** Optional element placed on the right side of the bottom legend row */
+  footerRight?: React.ReactNode
 }
 
 const DAYS_IN_WEEK = 7
-const DAY_LABELS = ['', 'Mon', '', 'Wed', '', 'Fri', '']
+const DAY_LABELS: { label: string; row: number }[] = [
+  { label: 'Mon', row: 1 },
+  { label: 'Wed', row: 3 },
+  { label: 'Fri', row: 5 },
+]
 
-function getIntensityLevel(
-  count: number,
-  maxCount: number,
-  levels: number
-): number {
-  if (count === 0) return 0
-  if (maxCount === 0) return 0
-  const ratio = count / maxCount
-  return Math.min(Math.ceil(ratio * levels), levels)
+// Authentic GitHub Contribution palette for Dark Mode with clear contrast
+const GITHUB_DARK_COLORS: Record<number, string> = {
+  0: '#1e2633', // Clearly visible dark slate square (contrasts against card canvas)
+  1: '#0e4429', // Dark emerald
+  2: '#006d32', // Medium green
+  3: '#26a641', // Bright green
+  4: '#39d353', // Vibrant neon green
 }
 
-// Maps intensity level → Tailwind color classes using design tokens
-const intensityColors: Record<number, string> = {
-  0: 'fill-surface-sunken',
-  1: 'fill-action-primary-subtle',
-  2: 'fill-action-primary/40',
-  3: 'fill-action-primary/65',
-  4: 'fill-action-primary',
+// Authentic GitHub Contribution palette for Light Mode
+const GITHUB_LIGHT_COLORS: Record<number, string> = {
+  0: '#ebedf0', // GitHub light neutral background cell
+  1: '#9be9a8', // Soft light green
+  2: '#40c463', // Medium vibrant green
+  3: '#30a14e', // Deep rich green
+  4: '#216e39', // Forest green
 }
 
 export const ActivityHeatmap = forwardRef<HTMLDivElement, ActivityHeatmapProps>(
   (
     {
-      data,
-      weeks = 52,
-      colorLevels = 4,
-      cellSize = 12,
+      data = [],
+      weeksData,
+      monthLabels: monthLabelsProp,
+      cellSize = 10.5,
       cellGap = 3,
       metricLabel = 'contributions',
+      totalCount: totalCountProp,
+      footerLeft,
+      footerRight,
       className,
       ...rest
     },
     ref
   ) => {
-    const { grid, maxCount, totalCount } = useMemo(() => {
-      const dataMap = new Map(data.map((d) => [d.date, d.count]))
-      const today = new Date()
-      const totalCells = weeks * DAYS_IN_WEEK
-      const grid: { date: string; count: number; dayOfWeek: number }[] = []
+    const { mode } = useTheme()
+    const isDark = mode === 'dark'
+    const levelColors = isDark ? GITHUB_DARK_COLORS : GITHUB_LIGHT_COLORS
 
-      let max = 0
-      let total = 0
-
-      for (let i = totalCells - 1; i >= 0; i--) {
-        const d = new Date(today)
-        d.setDate(d.getDate() - i)
-        const dateStr = d.toISOString().slice(0, 10)
-        const count = dataMap.get(dateStr) ?? 0
-        max = Math.max(max, count)
-        total += count
-        grid.push({ date: dateStr, count, dayOfWeek: d.getDay() })
+    // Build weeks array from either weeksData prop or raw flat data
+    const { columns, computedMonths, totalCount } = useMemo(() => {
+      if (weeksData && weeksData.length > 0) {
+        let total = 0
+        for (const week of weeksData) {
+          for (const day of week) {
+            if (day) total += day.count
+          }
+        }
+        return {
+          columns: weeksData,
+          computedMonths: monthLabelsProp || [],
+          totalCount: totalCountProp ?? total,
+        }
       }
 
-      return { grid, maxCount: max, totalCount: total }
-    }, [data, weeks])
+      // Fallback: convert flat data into 52 Sunday-to-Saturday columns
+      const dataMap = new Map(data.map((d) => [d.date, d]))
+      const currentYear = new Date().getFullYear()
+      const cursor = new Date(currentYear, 0, 1)
+      const startDay = cursor.getDay()
+      cursor.setDate(cursor.getDate() - startDay)
 
-    const svgWidth = weeks * (cellSize + cellGap) + 30 // 30px for day labels
-    const svgHeight = DAYS_IN_WEEK * (cellSize + cellGap) + 20 // 20px for month labels
+      const cols: (HeatmapData | null)[][] = []
+      const months: HeatmapMonthLabel[] = []
+      let lastMonth = -1
+      let total = 0
+
+      for (let w = 0; w < 52; w++) {
+        const week: (HeatmapData | null)[] = []
+        for (let d = 0; d < 7; d++) {
+          const m = cursor.getMonth()
+          if (
+            m !== lastMonth &&
+            d === 0 &&
+            cursor.getFullYear() === currentYear
+          ) {
+            months.push({
+              label: cursor.toLocaleString('default', { month: 'short' }),
+              colIndex: w,
+            })
+            lastMonth = m
+          }
+          const dateStr = cursor.toISOString().slice(0, 10)
+          const entry = dataMap.get(dateStr)
+          const count = entry?.count ?? 0
+          const level =
+            entry?.level ??
+            (count === 0
+              ? 0
+              : count <= 1
+                ? 1
+                : count <= 3
+                  ? 2
+                  : count <= 5
+                    ? 3
+                    : 4)
+          week.push({ date: dateStr, count, level, dayOfWeek: d })
+          total += count
+          cursor.setDate(cursor.getDate() + 1)
+        }
+        cols.push(week)
+      }
+
+      return {
+        columns: cols,
+        computedMonths: monthLabelsProp || months,
+        totalCount: totalCountProp ?? total,
+      }
+    }, [data, weeksData, monthLabelsProp, totalCountProp])
+
+    const totalWeeks = columns.length
+    const labelColOffset = 30 // Space on left for Mon, Wed, Fri
+    const headerHeight = 18 // Space on top for month labels
+    const svgWidth = labelColOffset + totalWeeks * (cellSize + cellGap) + 4
+    const svgHeight = headerHeight + DAYS_IN_WEEK * (cellSize + cellGap) + 4
+
+    const [hoveredCell, setHoveredCell] = useState<{
+      x: number
+      y: number
+      count: number
+      date: string
+    } | null>(null)
 
     return (
       <Stack
         ref={ref}
         direction="vertical"
         gap="sm"
-        className={className}
+        className={cn('w-full', className)}
         {...rest}
       >
-        <div className="overflow-x-auto">
-          <svg
-            width={svgWidth}
-            height={svgHeight}
-            className="block"
-            role="img"
-            aria-label={`Activity heatmap showing ${totalCount} ${metricLabel}`}
-          >
-            {/* Day labels */}
-            {DAY_LABELS.map((label, i) =>
-              label ? (
+        {/* SVG Container with hidden scrollbar */}
+        <div className="overflow-x-auto w-full py-1 flex justify-start lg:justify-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="relative inline-block">
+            <svg
+              width={svgWidth}
+              height={svgHeight}
+              className="block select-none shrink-0"
+              role="img"
+              aria-label={`Activity heatmap showing ${totalCount} ${metricLabel}`}
+            >
+              {/* 1. Month Labels Header across the top */}
+              {computedMonths.map((m, idx) => {
+                const x = labelColOffset + m.colIndex * (cellSize + cellGap)
+                return (
+                  <text
+                    key={`${m.label}-${idx}`}
+                    x={x}
+                    y={12}
+                    className="fill-fg-secondary text-[10px] font-normal"
+                    textAnchor="start"
+                  >
+                    {m.label}
+                  </text>
+                )
+              })}
+
+              {/* 2. Day Labels on the Left (Mon, Wed, Fri) */}
+              {DAY_LABELS.map(({ label, row }) => (
                 <text
-                  key={`day-${i}`}
+                  key={label}
                   x={0}
-                  y={20 + i * (cellSize + cellGap) + cellSize / 2}
-                  className="fill-fg-secondary text-[9px]"
+                  y={headerHeight + row * (cellSize + cellGap) + cellSize / 2 + 3}
+                  className="fill-fg-secondary text-[9px] font-normal"
                   dominantBaseline="middle"
                 >
                   {label}
                 </text>
-              ) : null
-            )}
+              ))}
 
-            {/* Grid cells */}
-            {grid.map((cell, i) => {
-              const weekIndex = Math.floor(i / DAYS_IN_WEEK)
-              const dayIndex = i % DAYS_IN_WEEK
-              const level = getIntensityLevel(cell.count, maxCount, colorLevels)
-              const x = 30 + weekIndex * (cellSize + cellGap)
-              const y = 20 + dayIndex * (cellSize + cellGap)
+              {/* 3. Contribution Grid Cells with custom Tooltip hover */}
+              {columns.map((week, weekIndex) => {
+                const x = labelColOffset + weekIndex * (cellSize + cellGap)
 
-              return (
-                <rect
-                  key={cell.date}
-                  x={x}
-                  y={y}
-                  width={cellSize}
-                  height={cellSize}
-                  rx={2}
-                  className={cn(
-                    intensityColors[level] ?? intensityColors[4],
-                    'transition-all duration-fast',
-                    'hover:stroke-border-focused hover:stroke-1'
-                  )}
-                  role="gridcell"
-                  aria-label={`${cell.date}: ${cell.count} ${metricLabel}`}
+                return week.map((cell, dayIndex) => {
+                  if (!cell) return null
+
+                  const y = headerHeight + dayIndex * (cellSize + cellGap)
+                  const level = cell.level ?? 0
+                  const fill = levelColors[level] || levelColors[0]
+                  const strokeColor =
+                    level === 0
+                      ? isDark
+                        ? 'rgba(255, 255, 255, 0.14)' // High-contrast visible border in dark mode
+                        : 'rgba(27, 31, 35, 0.08)' // Clean subtle border in light mode
+                      : isDark
+                        ? 'rgba(255, 255, 255, 0.08)'
+                        : 'rgba(0, 0, 0, 0.04)'
+
+                  return (
+                    <rect
+                      key={cell.date}
+                      x={x}
+                      y={y}
+                      width={cellSize}
+                      height={cellSize}
+                      rx={2}
+                      fill={fill}
+                      stroke={strokeColor}
+                      strokeWidth={0.8}
+                      className="transition-colors duration-fast hover:stroke-border-focused hover:stroke-[1.5px] cursor-pointer"
+                      role="gridcell"
+                      aria-label={`${cell.count} ${metricLabel} on ${cell.date}`}
+                      onMouseEnter={() =>
+                        setHoveredCell({
+                          x: x + cellSize / 2,
+                          y,
+                          count: cell.count,
+                          date: cell.date,
+                        })
+                      }
+                      onMouseLeave={() => setHoveredCell(null)}
+                    />
+                  )
+                })
+              })}
+            </svg>
+
+            {/* Custom UI Tooltip on Hover */}
+            {hoveredCell && (
+              <div
+                className="absolute pointer-events-none z-50 -translate-x-1/2 -translate-y-full"
+                style={{
+                  left: hoveredCell.x,
+                  top: hoveredCell.y - 2,
+                }}
+              >
+                <Tooltip
+                  forceVisible
+                  position="top"
+                  variant={isDark ? 'glass' : 'dark'}
+                  size="sm"
+                  content={`${hoveredCell.count === 0 ? 'No' : hoveredCell.count} ${metricLabel} on ${hoveredCell.date}`}
                 >
-                  <title>{`${cell.date}: ${cell.count} ${metricLabel}`}</title>
-                </rect>
-              )
-            })}
-          </svg>
+                  <span className="inline-block w-0 h-0" />
+                </Tooltip>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Legend */}
-        <Stack direction="horizontal" gap="sm" align="center" justify="end">
-          <Text as="span" variant="caption" color="secondary">
-            Less
-          </Text>
-          {Array.from({ length: colorLevels + 1 }, (_, i) => (
-            <svg key={i} width={cellSize} height={cellSize}>
-              <rect
-                width={cellSize}
-                height={cellSize}
-                rx={2}
-                className={intensityColors[i] ?? intensityColors[colorLevels]}
-              />
-            </svg>
-          ))}
-          <Text as="span" variant="caption" color="secondary">
-            More
-          </Text>
-        </Stack>
+        {/* 4. Legend & Action Row at Bottom (Aligned with SVG and centered) */}
+        <div
+          className="flex items-center justify-between gap-3 text-xs text-fg-secondary pt-2 px-0.5 border-t border-border-default/20 w-full mx-auto"
+          style={{ maxWidth: svgWidth }}
+        >
+          {/* Left Side: Less...More Legend (or footerLeft if specifically provided) */}
+          {footerLeft ? (
+            <div className="flex items-center">{footerLeft}</div>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <Text
+                as="span"
+                variant="caption"
+                color="secondary"
+                className="mr-0.5"
+              >
+                Less
+              </Text>
+              {[0, 1, 2, 3, 4].map((lvl) => (
+                <span
+                  key={lvl}
+                  className="inline-block rounded-[2px]"
+                  style={{
+                    width: cellSize,
+                    height: cellSize,
+                    backgroundColor: levelColors[lvl],
+                    border:
+                      lvl === 0
+                        ? isDark
+                          ? '0.8px solid rgba(255, 255, 255, 0.14)'
+                          : '0.8px solid rgba(27, 31, 35, 0.12)'
+                        : 'none',
+                  }}
+                />
+              ))}
+              <Text
+                as="span"
+                variant="caption"
+                color="secondary"
+                className="ml-0.5"
+              >
+                More
+              </Text>
+            </div>
+          )}
+
+          {/* Right Side: Action Button (footerRight) or Less...More if footerLeft was used */}
+          {footerRight ? (
+            <div className="flex items-center ml-auto">{footerRight}</div>
+          ) : footerLeft ? (
+            <div className="flex items-center gap-1.5 ml-auto">
+              <Text
+                as="span"
+                variant="caption"
+                color="secondary"
+                className="mr-0.5"
+              >
+                Less
+              </Text>
+              {[0, 1, 2, 3, 4].map((lvl) => (
+                <span
+                  key={lvl}
+                  className="inline-block rounded-[2px]"
+                  style={{
+                    width: cellSize,
+                    height: cellSize,
+                    backgroundColor: levelColors[lvl],
+                    border:
+                      lvl === 0
+                        ? isDark
+                          ? '0.8px solid rgba(255, 255, 255, 0.14)'
+                          : '0.8px solid rgba(27, 31, 35, 0.12)'
+                        : 'none',
+                  }}
+                />
+              ))}
+              <Text
+                as="span"
+                variant="caption"
+                color="secondary"
+                className="ml-0.5"
+              >
+                More
+              </Text>
+            </div>
+          ) : null}
+        </div>
       </Stack>
     )
   }
 )
+
 ActivityHeatmap.displayName = 'ActivityHeatmap'
 
 // ============================================================================
-// ContributionGrid — Simplified grid-based alternative (CSS Grid, not SVG)
+// ContributionGrid — Simplified grid-based alternative
 // ============================================================================
 
 export interface ContributionGridProps extends React.HTMLAttributes<HTMLDivElement> {
   data: HeatmapData[]
-  /** Number of columns (weeks) */
   columns?: number
   cellSize?: number
   metricLabel?: string
 }
 
-export const ContributionGrid = forwardRef<
-  HTMLDivElement,
-  ContributionGridProps
->(
-  (
-    {
-      data,
-      columns = 52,
-      cellSize = 12,
-      metricLabel = 'contributions',
-      className,
-      ...rest
-    },
-    ref
-  ) => {
-    const { grid, maxCount } = useMemo(() => {
-      const dataMap = new Map(data.map((d) => [d.date, d.count]))
-      const today = new Date()
-      const totalCells = columns * DAYS_IN_WEEK
-      const grid: { date: string; count: number }[] = []
-      let max = 0
-
-      for (let i = totalCells - 1; i >= 0; i--) {
-        const d = new Date(today)
-        d.setDate(d.getDate() - i)
-        const dateStr = d.toISOString().slice(0, 10)
-        const count = dataMap.get(dateStr) ?? 0
-        max = Math.max(max, count)
-        grid.push({ date: dateStr, count })
-      }
-
-      return { grid, maxCount: max }
-    }, [data, columns])
-
-    return (
-      <div
-        ref={ref}
-        className={cn('overflow-x-auto', className)}
-        role="grid"
-        aria-label={`Contribution grid`}
-        {...rest}
-      >
-        <div
-          className="grid gap-[3px]"
-          style={{
-            gridTemplateColumns: `repeat(${columns}, ${cellSize}px)`,
-            gridTemplateRows: `repeat(${DAYS_IN_WEEK}, ${cellSize}px)`,
-            gridAutoFlow: 'column',
-          }}
-        >
-          {grid.map((cell) => {
-            const level = getIntensityLevel(cell.count, maxCount, 4)
-            const bgMap: Record<number, string> = {
-              0: 'bg-surface-sunken',
-              1: 'bg-action-primary-subtle',
-              2: 'bg-action-primary/40',
-              3: 'bg-action-primary/65',
-              4: 'bg-action-primary',
-            }
-            return (
-              <Tooltip
-                key={cell.date}
-                content={`${cell.date}: ${cell.count} ${metricLabel}`}
-                size="sm"
-              >
-                <div
-                  className={cn(
-                    'rounded-[2px] transition-all duration-fast',
-                    bgMap[level],
-                    'hover:ring-1 hover:ring-border-focused'
-                  )}
-                  style={{ width: cellSize, height: cellSize }}
-                  role="gridcell"
-                  aria-label={`${cell.date}: ${cell.count} ${metricLabel}`}
-                />
-              </Tooltip>
-            )
-          })}
-        </div>
-      </div>
-    )
-  }
-)
-ContributionGrid.displayName = 'ContributionGrid'
+export const ContributionGrid = ActivityHeatmap
