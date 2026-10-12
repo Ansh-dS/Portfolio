@@ -216,7 +216,9 @@ export const ActivityHeatmap = forwardRef<HTMLDivElement, ActivityHeatmapProps>(
                 <text
                   key={label}
                   x={0}
-                  y={headerHeight + row * (cellSize + cellGap) + cellSize / 2 + 3}
+                  y={
+                    headerHeight + row * (cellSize + cellGap) + cellSize / 2 + 3
+                  }
                   className="fill-fg-secondary text-[9px] font-normal"
                   dominantBaseline="middle"
                 >
@@ -388,16 +390,3 @@ export const ActivityHeatmap = forwardRef<HTMLDivElement, ActivityHeatmapProps>(
 )
 
 ActivityHeatmap.displayName = 'ActivityHeatmap'
-
-// ============================================================================
-// ContributionGrid — Simplified grid-based alternative
-// ============================================================================
-
-export interface ContributionGridProps extends React.HTMLAttributes<HTMLDivElement> {
-  data: HeatmapData[]
-  columns?: number
-  cellSize?: number
-  metricLabel?: string
-}
-
-export const ContributionGrid = ActivityHeatmap

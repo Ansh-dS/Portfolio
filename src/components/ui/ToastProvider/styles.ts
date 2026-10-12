@@ -14,7 +14,7 @@ export const toastVariants = cva(
       },
       variant: {
         // The "Button-style" solid look (High contrast)
-        solid: 'shadow-md items-center',
+        solid: 'shadow-md',
         // The "Dashboard" inline look (Subtle background, left border)
         subtle: 'shadow-sm',
         // The "Riverside" floating look (Glassmorphism)
@@ -31,22 +31,22 @@ export const toastVariants = cva(
       {
         variant: 'solid',
         intent: 'info',
-        className: 'bg-status-info border-transparent',
+        className: 'bg-status-info text-fg-inverted border-transparent',
       },
       {
         variant: 'solid',
         intent: 'success',
-        className: 'bg-status-success/90 border-transparent',
+        className: 'bg-status-success text-fg-inverted border-transparent',
       },
       {
         variant: 'solid',
         intent: 'warning',
-        className: 'bg-status-warning border-transparent',
+        className: 'bg-status-warning text-fg-inverted border-transparent',
       },
       {
         variant: 'solid',
         intent: 'error',
-        className: 'bg-status-danger border-transparent',
+        className: 'bg-status-danger text-fg-inverted border-transparent',
       },
 
       /* --- 2. SUBTLE VARIANTS (Standard Dashboard Alerts) --- */

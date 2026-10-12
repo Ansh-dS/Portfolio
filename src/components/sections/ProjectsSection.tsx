@@ -52,7 +52,9 @@ export function ProjectsSection() {
 
           <TabsList className="shrink-0">
             <TabsTrigger value="fullstack">Full-Stack</TabsTrigger>
-            <TabsTrigger value="systems">GenAI &amp; Systems</TabsTrigger>
+            <TabsTrigger disabled value="systems">
+              GenAI &amp; Systems
+            </TabsTrigger>
           </TabsList>
         </div>
 

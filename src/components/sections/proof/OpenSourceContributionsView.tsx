@@ -41,7 +41,8 @@ export function OpenSourceContributionsView({
       {/* Filter Row with Category Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-s">
         <Text variant="caption" color="secondary">
-          Production-grade fixes and maintainer-reviewed PRs across public repositories.
+          Production-grade fixes and maintainer-reviewed PRs across public
+          repositories.
         </Text>
 
         <Tabs
@@ -103,8 +104,7 @@ export function OpenSourceContributionsView({
                   <Button
                     variant="glass"
                     size="sm"
-                    endIcon={
-                      <ArrowUpRight className="size-3.5 opacity-70" />}
+                    endIcon={<ArrowUpRight className="size-3.5 opacity-70" />}
                     aria-label={`View ${item.title} on GitHub`}
                     onClick={(e) => {
                       e.stopPropagation()

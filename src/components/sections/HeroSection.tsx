@@ -159,10 +159,7 @@ export function HeroSection({
             variant="glass"
             size="sm"
             onClick={() =>
-              window.open(
-                'https://leetcode.com/u/Anshdeep_Singh_D/',
-                '_blank'
-              )
+              window.open('https://leetcode.com/u/Anshdeep_Singh_D/', '_blank')
             }
             startIcon={<Zap className="size-3.5 text-amber-500" />}
             endIcon={

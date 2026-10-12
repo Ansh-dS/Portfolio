@@ -22,11 +22,7 @@ import type { GitHubApiResponse } from '@/app/api/github/route'
 import type { LeetCodeApiResponse } from '@/app/api/leetcode/route'
 
 // Re-export data models and constants for backwards compatibility
-export {
-  OPEN_SOURCE_CONTRIBUTIONS,
-  CATEGORY_COUNTS,
-  DEFAULT_LEETCODE,
-}
+export { OPEN_SOURCE_CONTRIBUTIONS, CATEGORY_COUNTS, DEFAULT_LEETCODE }
 export type { ContributionCategory, OpenSourceContribution }
 
 export interface ProofSectionProps {
@@ -69,7 +65,8 @@ export function ProofSection({
   const [leetcodeStats, setLeetcodeStats] =
     useState<LeetCodeApiResponse>(DEFAULT_LEETCODE)
 
-  const [openSourceFilter, setOpenSourceFilter] = useState<ContributionCategory>('merged')
+  const [openSourceFilter, setOpenSourceFilter] =
+    useState<ContributionCategory>('merged')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const filteredContributions = useMemo(
