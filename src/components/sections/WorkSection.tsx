@@ -27,10 +27,10 @@ export function WorkSection({ onOpenCertificate }: WorkSectionProps) {
             weight="semibold"
             className="uppercase tracking-widest"
           >
-            EXPERIENCE &amp; IMPACT
+            CAREER &amp; EXPERIENCE
           </Text>
           <Text as="h2" variant="h1" weight="bold">
-            Production Track Record
+            Work Experience
           </Text>
           <Text variant="body" color="secondary">
             Engineering reliable REST microservices and database query

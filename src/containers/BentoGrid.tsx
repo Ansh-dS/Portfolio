@@ -37,7 +37,7 @@ export const BentoGrid = forwardRef<HTMLDivElement, BentoGridProps>(
           'grid grid-cols-1',
           columnMap[columns],
           gapMap[gap],
-          'auto-rows-[minmax(180px,auto)]',
+          'auto-rows-auto',
           className
         )}
         {...rest}
@@ -91,15 +91,15 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
           rowSpanMap[rowSpan],
           'p-l overflow-hidden',
           'transition-all duration-normal ease-out',
-          'hover:shadow-overlay hover:-translate-y-0.5',
-          // Variant overrides
+          'hover:shadow-overlay hover:-translate-y-1',
+          // Variant overrides adhering strictly to global.css design tokens
           variant === 'glass' && [
-            'bg-surface-base/40 backdrop-blur-md',
-            'border-white/10 shadow-modal',
+            'bg-surface-base/60 backdrop-blur-md',
+            'border-border-default shadow-raised hover:shadow-overlay',
           ],
           variant === 'highlighted' && [
             'bg-action-primary text-fg-inverted',
-            'border-transparent shadow-overlay',
+            'border-border-default shadow-overlay',
           ],
           className
         )}

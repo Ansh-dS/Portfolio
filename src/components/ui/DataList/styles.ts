@@ -14,7 +14,7 @@ export const dataListVariants = cva(
 
         // LAW: The "Glass" Editor - High-end translucent look
         glass:
-          'divide-y divide-white/10 border border-white/10 rounded-large bg-surface-base/40 backdrop-blur-md shadow-modal',
+          'divide-y divide-border-default/40 border border-border-default rounded-large bg-surface-base/40 backdrop-blur-md shadow-raised',
 
         // NEW: Inset style for dashboard cards
         inset:

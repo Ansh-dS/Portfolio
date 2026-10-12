@@ -24,7 +24,7 @@ export const socialButtonVariants = cva(
           'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         linkedin:
-          'bg-action-primary text-fg-inverted border-transparent hover:bg-action-primary-hover',
+          'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',
 
         twitter:
           'bg-fg-primary text-fg-inverted border-transparent hover:opacity-90',

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box } from '@/src/components/ui/Box/Box'
 import { Text } from '@/src/components/ui/Text/Text'
 import { Badge } from '@/src/components/ui/Badge/Badge'
@@ -10,14 +10,29 @@ import { GraduationCap, FileText, Zap, ArrowUpRight } from 'lucide-react'
 import ansh from '@/public/ansh.jpg'
 
 export interface HeroSectionProps {
-  onSelectTab: (tab: string) => void
+  onSelectTab: (tab: string, subTab?: 'activity' | 'contributions') => void
   onOpenTranscript: () => void
+  onOpenCertificate?: () => void
 }
 
 export function HeroSection({
   onSelectTab,
   onOpenTranscript,
+  onOpenCertificate,
 }: HeroSectionProps) {
+  const [contestRating, setContestRating] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/leetcode')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.success && data?.rating) {
+          setContestRating(data.rating)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
   return (
     <Box
       id="hero"
@@ -60,14 +75,40 @@ export function HeroSection({
 
           {/* Proof Badges */}
           <div className="flex flex-wrap gap-2.5 mt-6 w-full">
-            <Badge color="info" size="sm">
-              Ex-Backend Intern @ Prodesk IT, Remote
+            <Badge
+              color="info"
+              size="sm"
+              className={
+                onOpenCertificate
+                  ? 'cursor-pointer hover:border-brand/50 hover:bg-surface-raised transition-all'
+                  : undefined
+              }
+              onClick={onOpenCertificate}
+              aria-label="View Prodesk IT Certificate of Experience"
+            >
+              Ex-Backend Intern @ Prodesk IT, Remote ↗
             </Badge>
-            <Badge color="info" size="sm">
-              Merged Contributor @ Rocket.Chat @ Excalidraw
+            <Badge
+              color="info"
+              size="sm"
+              className="cursor-pointer hover:border-brand/50 hover:bg-surface-raised transition-all"
+              onClick={() => onSelectTab('proof', 'contributions')}
+              aria-label="View Open Source Contributions"
+            >
+              Merged Contributor @ Rocket.Chat ↗
             </Badge>
-            <Badge color="info" size="sm">
-              1700–2000 Leetcode Rating
+            <Badge
+              color="info"
+              size="sm"
+              className="cursor-pointer hover:border-brand/50 hover:bg-surface-raised transition-all"
+              onClick={() =>
+                window.open('https://leetcode.com/u/0hUybs2mus/', '_blank')
+              }
+              aria-label="View LeetCode Profile and Contest Rating"
+            >
+              {contestRating
+                ? `${contestRating.toLocaleString()} LeetCode Contest Rating ↗`
+                : '1,460 LeetCode Contest Rating ↗'}
             </Badge>
           </div>
 
@@ -113,21 +154,24 @@ export function HeroSection({
             IIT Patna &apos;26
           </Button>
 
-          {/* Floating Glass Chip: Bottom Left (LeetCode Direct Redirect) */}
+          {/* Floating Glass Chip: Bottom Left (LeetCode Practice Profile) */}
           <Button
             variant="glass"
             size="sm"
             onClick={() =>
-              window.open('https://leetcode.com/u/Ansh-dS/', '_blank')
+              window.open(
+                'https://leetcode.com/u/Anshdeep_Singh_D/',
+                '_blank'
+              )
             }
             startIcon={<Zap className="size-3.5 text-amber-500" />}
             endIcon={
               <ArrowUpRight className="size-3.5 text-fg-brand opacity-70" />
             }
             className="absolute -bottom-3 -left-2 sm:-left-4 z-10"
-            aria-label="Open LeetCode Profile"
+            aria-label="Open LeetCode Practice Profile"
           >
-            400+ LeetCode
+            250+ LeetCode
           </Button>
         </div>
       </div>

@@ -39,14 +39,14 @@ export function ProjectsSection() {
               weight="semibold"
               className="uppercase tracking-widest"
             >
-              FEATURED ARCHITECTURE
+              PORTFOLIO &amp; APPLICATIONS
             </Text>
             <Text as="h2" variant="h1" weight="bold">
-              Flagship Systems
+              Featured Projects
             </Text>
             <Text variant="body" color="secondary">
-              Interactive state synchronizations &amp; async job orchestration
-              engines.
+              Production full-stack applications, interactive systems, and
+              distributed state synchronization.
             </Text>
           </div>
 
