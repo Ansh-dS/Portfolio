@@ -45,10 +45,12 @@ export function ActivityVelocityView({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-col">
               <Text as="h3" variant="subheader" weight="bold">
-                {githubData.totalContributions} contributions in {githubData.year}
+                {githubData.totalContributions} contributions in{' '}
+                {githubData.year}
               </Text>
               <Text variant="caption" color="secondary" className="mt-0.5">
-                Jan {githubData.year} – Dec {githubData.year} • GitHub activity @Ansh-dS
+                Jan {githubData.year} – Dec {githubData.year} • GitHub activity
+                @Ansh-dS
               </Text>
             </div>
 
@@ -146,9 +148,7 @@ export function ActivityVelocityView({
             <Button
               variant="glass"
               size="sm"
-              onClick={() =>
-                window.open(leetcodeStats.profileUrl, '_blank')
-              }
+              onClick={() => window.open(leetcodeStats.profileUrl, '_blank')}
               endIcon={<ArrowUpRight className="size-3.5 opacity-70" />}
               className="w-full flex-1"
               aria-label="View LeetCode Contest Profile @0hUybs2mus"

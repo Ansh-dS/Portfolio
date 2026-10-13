@@ -29,9 +29,9 @@ const NAV_ITEMS = [
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('hero')
-  const [proofSubTab, setProofSubTab] = useState<
-    'activity' | 'contributions'
-  >('activity')
+  const [proofSubTab, setProofSubTab] = useState<'activity' | 'contributions'>(
+    'activity'
+  )
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false)
   const [isCertificateOpen, setIsCertificateOpen] = useState(false)
 

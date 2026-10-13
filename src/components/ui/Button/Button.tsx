@@ -212,7 +212,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               <Spinner size={spinnerSize} color={resolvedIconColor} />
             </span>
           ) : (
-            startIcon && (
+            (startIcon || ((isIconSize || isStartIconOnly) && children)) && (
               /* we shouldn't write the variable values inside className:
                  but we should use these kinds of map because:
                  these inline values( 'inline-flex shrink-0') comiples while building(pnpm build ) 
@@ -223,7 +223,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                   textColorMap[resolvedIconColor]
                 )}
               >
-                {renderIcon(startIcon)}
+                {startIcon ? renderIcon(startIcon) : children}
               </span>
             )
           )}

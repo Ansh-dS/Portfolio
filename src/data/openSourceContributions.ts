@@ -158,7 +158,7 @@ export const OPEN_SOURCE_CONTRIBUTIONS: OpenSourceContribution[] = [
     type: 'pr',
     category: 'open-prs',
     summary:
-      "Bumped Workbox precache limit from 2.3MB to 4MB to resolve failing production Docker builds. Integrated yarn build:app:docker check into CI to catch bundle-size regressions before merge.",
+      'Bumped Workbox precache limit from 2.3MB to 4MB to resolve failing production Docker builds. Integrated yarn build:app:docker check into CI to catch bundle-size regressions before merge.',
     link: 'https://github.com/excalidraw/excalidraw/pull/12049',
     impactBadge: 'CI/CD & PWA',
   },
@@ -187,9 +187,13 @@ export const OPEN_SOURCE_CONTRIBUTIONS: OpenSourceContribution[] = [
 ]
 
 export const CATEGORY_COUNTS = {
-  merged: OPEN_SOURCE_CONTRIBUTIONS.filter((c) => c.category === 'merged').length,
-  'open-prs': OPEN_SOURCE_CONTRIBUTIONS.filter((c) => c.category === 'open-prs').length,
-  'open-issues': OPEN_SOURCE_CONTRIBUTIONS.filter((c) => c.category === 'open-issues').length,
+  merged: OPEN_SOURCE_CONTRIBUTIONS.filter((c) => c.category === 'merged')
+    .length,
+  'open-prs': OPEN_SOURCE_CONTRIBUTIONS.filter((c) => c.category === 'open-prs')
+    .length,
+  'open-issues': OPEN_SOURCE_CONTRIBUTIONS.filter(
+    (c) => c.category === 'open-issues'
+  ).length,
 } as const
 
 export const DEFAULT_LEETCODE: LeetCodeApiResponse = {
