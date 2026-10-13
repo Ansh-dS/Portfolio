@@ -91,7 +91,7 @@ export async function GET(request: Request) {
           'User-Agent':
             'Mozilla/5.0 (compatible; PortfolioBot/1.0; +https://github.com)',
         },
-        next: { revalidate: 3600 },
+        next: { revalidate: 60 },
       }
     )
 
@@ -125,25 +125,30 @@ export async function GET(request: Request) {
       ? [...tbodyMatch[1].matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)]
       : []
 
-    const rowData: (GitHubContributionDay | null)[][] = []
-    let maxCols = 0
+    let maxIx = 52
+    const cellMap = new Map<string, GitHubContributionDay>()
 
     for (let r = 0; r < 7; r++) {
       const row = rowMatches[r]
-      if (!row) {
-        rowData.push([])
-        continue
-      }
+      if (!row) continue
 
-      const tds = [
-        ...row[1].matchAll(
-          /<td[^>]*data-date="([^"]+)"[^>]*id="([^"]+)"[^>]*data-level="([^"]+)"/g
-        ),
-      ]
-      const parsedRow: (GitHubContributionDay | null)[] = []
+      const tdElements = row[1].matchAll(/<td\b([^>]*)>/g)
 
-      for (const td of tds) {
-        const [, date, id, level] = td
+      for (const tdMatch of tdElements) {
+        const attrs = tdMatch[1]
+        const ixMatch = attrs.match(/data-ix="(\d+)"/)
+        const dateMatch = attrs.match(/data-date="([^"]+)"/)
+        const idMatch = attrs.match(/id="([^"]+)"/)
+        const levelMatch = attrs.match(/data-level="([^"]+)"/)
+        if (!dateMatch) continue
+
+        const colIx = ixMatch ? parseInt(ixMatch[1], 10) : 0
+        if (colIx > maxIx) maxIx = colIx
+
+        const date = dateMatch[1]
+        const id = idMatch ? idMatch[1] : ''
+        const level = levelMatch ? parseInt(levelMatch[1], 10) || 0 : 0
+
         const tooltipMatch = html.match(
           new RegExp(`<tool-tip[^>]*for="${id}"[^>]*>(.*?)<\\/tool-tip>`)
         )
@@ -152,30 +157,28 @@ export async function GET(request: Request) {
           const countMatch = tooltipMatch[1].match(/^(\d+)\s+contribution/)
           if (countMatch) count = parseInt(countMatch[1], 10)
         }
-        parsedRow.push({
+
+        cellMap.set(`${colIx},${r}`, {
           date,
           count,
-          level: parseInt(level, 10) || 0,
+          level,
           dayOfWeek: r,
         })
       }
-
-      if (parsedRow.length > maxCols) maxCols = parsedRow.length
-      rowData.push(parsedRow)
     }
 
-    if (maxCols === 0) {
+    if (cellMap.size === 0) {
       throw new Error('No contribution cells parsed from GitHub HTML')
     }
 
-    // 3. Pivot rows into columns (weeks: Sunday to Saturday)
+    // 3. Assemble weeks grid accurately indexed by data-ix (0 to maxIx)
     const weeks: (GitHubContributionDay | null)[][] = []
     const allDays: GitHubContributionDay[] = []
 
-    for (let c = 0; c < maxCols; c++) {
+    for (let c = 0; c <= maxIx; c++) {
       const week: (GitHubContributionDay | null)[] = []
       for (let r = 0; r < 7; r++) {
-        const day = rowData[r]?.[c] ?? null
+        const day = cellMap.get(`${c},${r}`) ?? null
         week.push(day)
         if (day) allDays.push(day)
       }
@@ -230,7 +233,7 @@ export async function GET(request: Request) {
       {
         headers: {
           'Cache-Control':
-            'public, s-maxage=3600, stale-while-revalidate=86400',
+            'public, s-maxage=60, stale-while-revalidate=120',
         },
       }
     )
